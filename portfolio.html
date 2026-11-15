@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="陈少英 AI 产品经理个人作品集：企业终端运维 Agent、企业知识库 RAG、AI 投资研究助手。" />
+    <title>陈少英｜AI 产品经理作品集</title>
+    <link rel="icon" href="assets/brand-logo-transparent-v2.png" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+SC:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="styles.css" />
+    <link rel="stylesheet" href="assistant.css" />
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body class="portfolio-page">
+    <div class="page-noise" aria-hidden="true"></div>
+    <header class="site-header" id="siteHeader">
+      <div class="header-inner glass-panel">
+        <a class="brand" href="index.html">
+          <img class="brand-logo" src="assets/brand-logo-transparent-v2.png" alt="" />
+          <span class="brand-copy"><strong>陈少英</strong><small>AI 产品经理</small></span>
+        </a>
+        <button class="menu-toggle" type="button" aria-label="打开导航" aria-expanded="false">
+          <span></span><span></span>
+        </button>
+        <nav class="site-nav" aria-label="主导航">
+          <a href="#home" class="active">首页</a>
+          <a href="#projects">项目</a>
+          <a href="#strengths">优势</a>
+          <a href="#contact">联系</a>
+        </nav>
+        <a class="header-cta" href="#contact">联系我 <i data-lucide="arrow-right"></i></a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero section" id="home" data-section>
+        <div class="hero-ambient" aria-hidden="true"></div>
+        <div class="container hero-grid">
+          <div class="hero-copy reveal">
+            <div class="hero-kicker" aria-label="双轨身份">
+              <span class="kicker-dot" aria-hidden="true"></span>
+              <span class="kicker-item accent">AI Product Manager</span>
+              <span class="kicker-divider" aria-hidden="true"></span>
+              <span class="kicker-item">AI UX Designer</span>
+            </div>
+            <h1>模型是概率的，业务是严肃的。<br /><span class="hero-title-nowrap">搭建【可控·可信·可评测】的 <span>AI 产品 Harness</span></span></h1>
+            <p class="hero-role">陈少英｜AI 产品经理</p>
+            <p class="hero-domain">Agent Harness · Context Engineering · Eval 评测闭环</p>
+            <div class="hero-line"></div>
+            <p class="hero-description">7 年 B 端系统与体验底座，近 3 年深耕企业 AI 应用。深谙“Agent = Model + Harness”工程范式与“确定性规则+概率模型”混合架构，擅长将模糊、复杂的严肃业务与高危运维流程，构筑为高可信、带安全护栏、可自动化评测交付的产品闭环。</p>
+            <div class="hero-actions">
+              <a class="button button-primary" href="#projects">查看精选项目 <i data-lucide="arrow-right"></i></a>
+              <a class="button button-secondary" href="assets/resume-chen-shaoying-ai-pm.pdf" download>下载简历 <i data-lucide="download"></i></a>
+            </div>
+            <p class="availability"><span></span>正在寻找 AI 产品经理机会</p>
+          </div>
+
+          <div class="hero-visual reveal" aria-label="企业 AI 工作流视觉图">
+            <div class="hero-image-wrap glass-panel">
+              <img src="assets/hero-workflow.png" alt="陈少英与企业 AI 工作流视觉" />
+              <div class="workflow-node node-task">业务意图解析</div>
+              <div class="workflow-node node-knowledge">Context 上下文治理</div>
+              <div class="workflow-node node-permission">Harness 确定性护栏</div>
+              <div class="workflow-node node-delivery">HITL 授权与评测</div>
+            </div>
+          </div>
+        </div>
+        <div class="container proof-strip reveal" id="proof-strip" aria-label="关键经历数据">
+          <div><strong>7 年</strong><span>B 端系统与体验</span></div>
+          <div><strong>近 3 年</strong><span>企业 AI 产品</span></div>
+          <div><strong>260+</strong><span>企业客户覆盖</span></div>
+          <div><strong>100 万+</strong><span>终端纳管规模</span></div>
+        </div>
+      </section>
+
+      <section class="projects section" id="projects" data-section>
+        <div class="container">
+          <div class="section-heading section-heading-row reveal">
+            <div>
+              <h2>精选项目</h2>
+              <p>不只展示界面，更说明架构思考、关键决策、AI 与规则的边界分工，以及如何建立 Eval 验收闭环。</p>
+            </div>
+          </div>
+
+          <article class="project-card project-card-lead glass-panel reveal" id="project-lenovo">
+            <div class="project-copy">
+              <div class="project-number">01</div>
+              <p class="project-type">公司项目 · 终端运维 Agent 与 Harness 架构</p>
+              <h3>联想设备管理平台<br />企业终端运维 Agent 智能工作流</h3>
+              <p>在纳管 100 万+ 终端的成熟 B 端平台中引入对话式 Agent。遵循“凡能用确定性代码约束绝不交由概率模型自由发挥”原则，首创“AI 意图编排 + 平台确定性鉴权拦截 + HITL 用户最终确认”三方责任模型，将复杂跨模块操作由 7 步缩短至 2 步。</p>
+              <ul>
+                <li><strong>风险分级路由与 Approval Token</strong>：只读查询走轻量 Tool Calling；关机等高危操作后端强校验一次性审批 Token，杜绝诱导绕过</li>
+                <li><strong>9 大功能架构重构 (Workflow vs Agent)</strong>：破除泛 Agent 化，将 80% 业务降级为确定性工作流，Token 节省 70%，延迟从 3.5s 压进 0.9s</li>
+                <li><strong>全生命周期评测即 PRD</strong>：搭建覆盖正常、多轮指代、参数残缺与越权的百条级 Eval Pack，高危未授权 100% 确定性拦截</li>
+              </ul>
+              <div class="project-result">
+                <strong>260+ 家企业 · 100万+ 终端 · 联想云底座</strong>
+                <span>高危未授权操作 100% 确定性拦截 ｜ 关键高频路径缩短 70% ｜ 查询延迟 0.9s</span>
+              </div>
+              <div class="project-links-row" style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+                <a class="text-button" href="project-lenovo.html">查看完整项目详情（0-1 生产 PRD · 架构重构路线 · Eval Pack） <i data-lucide="arrow-up-right"></i></a>
+                <a class="text-button" href="project-lenovo.html#arch-decision-tree" style="color: #6366f1; border-color: rgba(99, 102, 241, 0.35);">
+                  架构选型决策树 (Workflow vs Agent) <i data-lucide="git-fork"></i>
+                </a>
+                <a class="text-button" href="lenovo-agent-ui-design.html" target="_blank" style="color: var(--accent); border-color: rgba(18, 101, 245, 0.35);">
+                  体验 AI 助手 PoC 画板 (8 Screens) <i data-lucide="sparkles"></i>
+                </a>
+              </div>
+            </div>
+            <div class="project-media">
+              <img src="assets/project-device-platform-v2.png" alt="联想设备管理平台界面" />
+            </div>
+          </article>
+
+          <div class="project-grid">
+            <article class="project-card glass-panel reveal" id="project-star">
+              <div class="project-media">
+                <img src="assets/project-rag-assistant-v2.png" alt="企业知识库 AI 助手界面" />
+              </div>
+              <div class="project-copy">
+                <div class="project-number">02</div>
+                <p class="project-type">公司项目 · 企业知识库与可信问答</p>
+                <h3>STAR 企业智能知识资产治理与问答平台（LLM + RAG）</h3>
+                <div class="project-tags">
+                  <span>Context Engineering</span>
+                  <span>时效元数据强过滤</span>
+                  <span>防 Context Rot</span>
+                  <span>Eval 黄金测试集</span>
+                </div>
+                <ul style="margin: 14px 0 0; padding-left: 18px; color: var(--ink-2); font-size: 13px; line-height: 1.6;">
+                  <li><strong>治理</strong>：按 H2/H3 业务语义分块，结合生效期与失效标签进行检索前强过滤，杜绝版本混淆</li>
+                  <li><strong>护栏</strong>：强制展示回答依据与原文跳转锚定，置信度不足时主动追问或明确代码级拒答</li>
+                  <li><strong>评测</strong>：构建 200+ 真实问答与越权诱导的 Golden Dataset，以 Recall@K 与忠实度建立自动化验收</li>
+                </ul>
+                <a class="text-button" href="project-star.html">查看完整项目详情（PRD + Eval Pack） <i data-lucide="arrow-up-right"></i></a>
+              </div>
+            </article>
+
+            <article class="project-card glass-panel reveal" id="project-signalproof">
+              <div class="project-media project-media-signal">
+                <img src="assets/project-signalproof-v2.jpg" alt="SignalProof AI 投资研究助手界面" />
+              </div>
+              <div class="project-copy">
+                <div class="project-number">03</div>
+                <p class="project-type">独立个人产品 · 0→1 原型全栈开发</p>
+                <h3>SignalProof ｜ 投研线索与证据链核验助手</h3>
+                <div class="project-tags project-tags-warm">
+                  <span>规则+LLM混合分工</span>
+                  <span>证据链核验</span>
+                  <span>严肃决策防幻觉</span>
+                  <span>React全栈原型</span>
+                </div>
+                <ul style="margin: 14px 0 0; padding-left: 18px; color: var(--ink-2); font-size: 13px; line-height: 1.6;">
+                  <li><strong>分工</strong>：财务指标与估值交由规则引擎硬算，非结构化研报交由 LLM 逻辑归纳，消除财务幻觉</li>
+                  <li><strong>交互</strong>：独创“结论摘要 + 正反论据比对 + 来源超链接 + 待确认风险”四步理智决策流</li>
+                  <li><strong>交付</strong>：基于 React + Vite 独立编写全流程可交互前端原型，已上线跑通模拟闭环</li>
+                </ul>
+                <a class="text-button" href="https://signalproof-demo.pages.dev/" target="_blank" rel="noopener noreferrer">查看在线可交互 Demo <i data-lucide="arrow-up-right"></i></a>
+              </div>
+            </article>
+
+            <article class="project-card glass-panel reveal" id="project-voysum">
+              <div class="project-media">
+                <img src="assets/project-voysum.jpg" alt="Voysum 智能转录界面" />
+              </div>
+              <div class="project-copy">
+                <div class="project-number">04</div>
+                <p class="project-type">AI工具出海 · 独立商业 SaaS</p>
+                <h3>Voysum ｜ 智能音视频转录与摘要平台</h3>
+                <div class="project-tags">
+                  <span>AI商业SaaS</span>
+                  <span>长音频分段处理</span>
+                  <span>模型降本路由</span>
+                  <span>全栈独立交付</span>
+                </div>
+                <ul style="margin: 14px 0 0; padding-left: 18px; color: var(--ink-2); font-size: 13px; line-height: 1.6;">
+                  <li><strong>降本</strong>：设计分级模型处理策略与长音频切片，实现复杂转录与精简摘要综合降本 45%</li>
+                  <li><strong>体验</strong>：双栏协同工作区与词级时间戳联动高亮，兼顾泛读概览与逐字精校</li>
+                  <li><strong>商业</strong>：独立打通海外支付转化与用户订阅，跑通自负盈亏商业闭环</li>
+                </ul>
+                <a class="text-button" href="https://voysum.com/" target="_blank" rel="noopener noreferrer">查看产品官网 <i data-lucide="arrow-up-right"></i></a>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="strengths section" id="strengths" data-section>
+        <div class="container">
+          <div class="section-heading section-heading-row reveal">
+            <div>
+              <h2>我擅长什么，如何用工程化思维驾驭 AI</h2>
+              <p>能力不是调参玩梗，而是在概率模型与企业严肃业务之间，构建确定、可靠的工程控制平面。</p>
+            </div>
+          </div>
+          <div class="strength-grid">
+            <article class="strength-card strength-lead glass-panel reveal" id="strength-harness">
+              <div class="strength-icon"><i data-lucide="shield-alert"></i></div>
+              <h3>复杂业务 Agent Harness 与安全护栏</h3>
+              <p>深谙 <strong>Agent = Model + Harness</strong> 工程范式。首创“AI 意图编排 + 平台确定性鉴权 + HITL 用户最终确认”三方责任模型；擅长前置状态探针、Schema 槽位校验、高危两级确认与异常降级恢复（Fallback & Recovery），从系统层根治模型幻觉与越权失控。</p>
+              <ul>
+                <li>区分只读查询与写操作，严格限制执行半径</li>
+                <li>设计参数残缺追问、同名歧义识别与离线预检自愈</li>
+                <li>沉淀高危误触 100% 确定性拦截规范</li>
+              </ul>
+              <div class="mini-workflow">
+                <span>意图路由</span><i data-lucide="chevron-right"></i>
+                <span>状态探针</span><i data-lucide="chevron-right"></i>
+                <span>RBAC拦截</span><i data-lucide="chevron-right"></i>
+                <span>HITL确认</span><i data-lucide="chevron-right"></i>
+                <span>审计自愈</span>
+              </div>
+            </article>
+
+            <article class="strength-card glass-panel reveal" id="strength-rag">
+              <div class="strength-icon"><i data-lucide="file-check"></i></div>
+              <h3>企业级 RAG 与 Context Engineering</h3>
+              <p>从知识资产化角度治理上下文腐化（Context Rot）。精通 H2/H3 业务语义分块与生效时间元数据强过滤，杜绝新旧版本混淆；设计“回答依据强制展示 + 原文跳转锚定 + 代码级明确拒答”三层防线，沉淀 Badcase 线上治理自愈飞轮。</p>
+            </article>
+
+            <article class="strength-card glass-panel reveal" id="strength-eval">
+              <div class="strength-icon"><i data-lucide="gauge"></i></div>
+              <h3>0-1 原型交付与 Eval Harness 评测体系</h3>
+              <p>坚持“评测即 PRD”。擅长搭建百条级覆盖正常指令、参数残缺、时效冲突与越权诱导的 Golden Dataset（黄金测试集）；以检索召回率（Recall@K）、答案忠实度与拒答准确率设立客观验收硬指标，实现持续自动化回归验收。</p>
+            </article>
+
+            <article class="strength-card glass-panel reveal" id="strength-hybrid">
+              <div class="strength-icon"><i data-lucide="layers"></i></div>
+              <h3>7年 B 端严谨系统底座 × 混合架构设计</h3>
+              <p>深刻理解多租户、复杂权限与业务链路。擅长“确定性规则引擎 + 概率大模型”混合分工与大小模型分级路由；兼备 React/Vite 原型代码交付与 UX 可用性工程能力，让 AI 不确定性在人机交互中可感知、可核验、可解释。</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact section" id="contact" data-section>
+        <div class="container">
+          <div class="contact-panel glass-panel reveal" id="contact-panel">
+            <div class="contact-copy">
+              <h2>一起把复杂业务，<br />做成真正能用的 <span>AI 产品</span></h2>
+              <p>期待加入重视真实业务价值、产品落地与长期迭代的团队。</p>
+              <div class="contact-actions">
+                <a class="button button-primary" href="mailto:sharonchen787@outlook.com">联系我 <i data-lucide="arrow-right"></i></a>
+                <a class="button button-secondary" href="assets/resume-chen-shaoying-ai-pm.pdf" download>下载简历 <i data-lucide="download"></i></a>
+              </div>
+            </div>
+            <div class="contact-visual">
+              <div class="qrcode-card">
+                <img src="assets/wechat-qrcode.jpg" alt="微信二维码：小英子 (csy1316712)" />
+                <span class="qrcode-hint">扫码添加微信</span>
+              </div>
+            </div>
+            <div class="contact-list">
+              <a href="mailto:sharonchen787@outlook.com">
+                <small>工作邮箱</small>
+                <strong>sharonchen787@outlook.com</strong>
+              </a>
+              <button type="button" data-copy="csy1316712">
+                <small>个人微信（点击复制）</small>
+                <strong>csy1316712</strong>
+              </button>
+              <div>
+                <small>工作所在地</small>
+                <strong>深圳南山</strong>
+              </div>
+            </div>
+          </div>
+          <footer class="footer">
+            <span>© 2026 陈少英</span>
+            <span>AI 产品经理 · 企业 AI 应用</span>
+            <a href="#home">返回顶部 <i data-lucide="arrow-up"></i></a>
+          </footer>
+        </div>
+      </section>
+    </main>
+
+    <dialog class="project-dialog" id="projectDialog">
+      <button class="dialog-close" type="button" aria-label="关闭">×</button>
+      <p class="dialog-index"></p>
+      <h3></h3>
+      <p class="dialog-summary"></p>
+      <div class="dialog-columns">
+        <div>
+          <h4>问题</h4>
+          <p data-field="problem"></p>
+        </div>
+        <div>
+          <h4>关键设计</h4>
+          <p data-field="design"></p>
+        </div>
+        <div>
+          <h4>结果</h4>
+          <p data-field="result"></p>
+        </div>
+      </div>
+    </dialog>
+    <div class="toast" role="status" aria-live="polite">已复制</div>
+    <script src="app.js"></script>
+    <script src="visual-editor.js"></script>
+    <script src="assistant-data.js"></script>
+    <script src="assistant.js"></script>
+    <script>
+      if (window.lucide) {
+        lucide.createIcons();
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,952 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>联想运维 Agent 界面优化设计稿 (平台同款白底企业级风格)</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    :root {
+      --figma-bg: #1e1e1e;
+      --figma-panel: #2c2c2c;
+      --figma-border: #383838;
+      --lenovo-blue: #0066ff;
+      --lenovo-bg: #f8fafc;
+      --lenovo-card: #ffffff;
+      --lenovo-border: #e2e8f0;
+      --lenovo-text-main: #0f172a;
+      --lenovo-text-sub: #475569;
+    }
+    body {
+      background-color: var(--figma-bg);
+      color: #e2e8f0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      overflow-x: hidden;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.1);
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #94a3b8;
+      border-radius: 3px;
+    }
+    .dark-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .dark-scrollbar::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.2);
+    }
+    .dark-scrollbar::-webkit-scrollbar-thumb {
+      background: #475569;
+      border-radius: 3px;
+    }
+    .grid-bg {
+      background-image: radial-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px);
+      background-size: 24px 24px;
+    }
+    .lenovo-shadow {
+      box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.08), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+    }
+  </style>
+</head>
+<body class="h-screen flex flex-col antialiased select-none">
+
+  <!-- 顶部 Figma 风格工具栏 -->
+  <header class="h-12 border-b border-[#383838] bg-[#2c2c2c] px-4 flex items-center justify-between z-30 shrink-0">
+    <div class="flex items-center space-x-3">
+      <div class="flex items-center space-x-1.5">
+        <span class="w-3 h-3 rounded-full bg-[#ff5f56] inline-block"></span>
+        <span class="w-3 h-3 rounded-full bg-[#ffbd2e] inline-block"></span>
+        <span class="w-3 h-3 rounded-full bg-[#27c93f] inline-block"></span>
+      </div>
+      <div class="h-4 w-px bg-neutral-600 mx-2"></div>
+      <div class="flex items-center space-x-2">
+        <svg class="w-4 h-4 text-blue-400" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 14H9v-2h2v2zm0-4H9V7h2v5zm4 4h-2v-2h2v2zm0-4h-2V7h2v5z"/></svg>
+        <span class="text-xs font-semibold text-white tracking-wide">Lenovo-Agent-Light-v2.1.fig</span>
+        <span class="text-[11px] px-2 py-0.5 rounded bg-blue-600 text-white font-medium">平台同款·白色背景版</span>
+      </div>
+    </div>
+
+    <!-- 中部模式切换 -->
+    <div class="flex items-center bg-[#1e1e1e] rounded-lg p-0.5 border border-[#383838]">
+      <button id="viewDesign" onclick="switchMainView('design')" class="px-3 py-1 rounded text-xs font-medium bg-[#383838] text-white shadow-sm transition-all flex items-center space-x-1.5">
+        <span>🎨 白底画板设计稿 (8 Screens)</span>
+      </button>
+      <button id="viewCompare" onclick="switchMainView('compare')" class="px-3 py-1 rounded text-xs font-medium text-neutral-400 hover:text-white transition-all flex items-center space-x-1.5">
+        <span>🔍 原版 PoC 诊断与白底升级对比</span>
+      </button>
+    </div>
+
+    <!-- 右侧操作 -->
+    <div class="flex items-center space-x-3 text-xs">
+      <div class="flex items-center space-x-1.5 text-neutral-300">
+        <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+        <span class="text-[11px]">与平台 UI 100% 融合</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 主体工作区 (三栏布局) -->
+  <div class="flex-1 flex overflow-hidden">
+    
+    <!-- 左侧：画板图层导航 (Layers Panel) -->
+    <aside class="w-64 border-r border-[#383838] bg-[#242424] flex flex-col shrink-0">
+      <div class="p-3 border-b border-[#383838] text-xs font-semibold text-neutral-400 uppercase tracking-wider flex justify-between items-center">
+        <span>白底原型画板 (Frames)</span>
+        <span class="text-[11px] text-blue-400 font-normal">8 个状态</span>
+      </div>
+      <div class="flex-1 overflow-y-auto dark-scrollbar p-2 space-y-1" id="frameNavList">
+        <!-- JS 动态渲染导航项 -->
+      </div>
+      <div class="p-3 border-t border-[#383838] bg-[#1e1e1e]/60 text-xs text-neutral-400">
+        <div class="flex items-center space-x-1.5 text-blue-300 mb-1 font-medium">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          <span>设计契合度说明</span>
+        </div>
+        <p class="text-[11px] leading-relaxed text-neutral-400">
+          全面采用平台同款纯白背景（#FFFFFF）、极淡蓝灰底（#F8FAFC）、深蓝主题色（#0066FF）以及严谨的 1px 细灰边框。
+        </p>
+      </div>
+    </aside>
+
+    <!-- 中间：画布区域 (Canvas Viewport) -->
+    <main class="flex-1 bg-[#181818] grid-bg overflow-y-auto dark-scrollbar relative p-8 flex justify-center items-start">
+      
+      <!-- 视图 1：8 大白底设计画板交互展示 -->
+      <div id="designContainer" class="w-full max-w-4xl transition-all duration-300">
+        <div id="activeFrameDisplay" class="bg-white rounded-xl border border-[#3e3e3e] shadow-2xl overflow-hidden">
+          <!-- 动态内容插入区 -->
+        </div>
+      </div>
+
+      <!-- 视图 2：新旧 PoC 深度重构对比 -->
+      <div id="compareContainer" class="w-full max-w-5xl hidden space-y-6">
+        <div class="bg-[#242424] border border-[#383838] rounded-xl p-5">
+          <div class="flex items-center justify-between mb-4">
+            <div>
+              <h2 class="text-base font-semibold text-white">联想管理平台：白色风格演进对比</h2>
+              <p class="text-xs text-neutral-400 mt-1">从“粗糙的玩具式白色弹窗”到“工业级企业级浅色微拟物体系”</p>
+            </div>
+            <span class="px-2.5 py-1 text-xs rounded bg-blue-600 text-white font-medium">视觉与工程双进化</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-6 text-xs">
+            <!-- 原版白底缺陷 -->
+            <div class="bg-red-950/20 border border-red-900/40 rounded-lg p-4 space-y-3">
+              <div class="flex items-center space-x-2 text-red-400 font-semibold text-sm">
+                <span class="w-2 h-2 rounded-full bg-red-500"></span>
+                <span>原版白底界面的视觉痛点</span>
+              </div>
+              <ul class="space-y-2 text-neutral-300 leading-relaxed list-disc list-inside">
+                <li><strong class="text-white">缺乏层级深度：</strong>纯白底配黑字，没有使用浅灰底色分离信息区块，视觉扁平干瘪。</li>
+                <li><strong class="text-white">边缘分割生硬：</strong>缺少轻柔的弥散阴影与高精细边框，给人“半成品原型”的粗糙感。</li>
+                <li><strong class="text-white">缺少企业级状态语义：</strong>告警红、警告黄、正常绿都是最刺眼的默认原色，缺少 B 端舒适的浅色标签底色。</li>
+              </ul>
+            </div>
+
+            <!-- 2.1版白底飞跃 -->
+            <div class="bg-blue-950/20 border border-blue-900/40 rounded-lg p-4 space-y-3">
+              <div class="flex items-center space-x-2 text-blue-400 font-semibold text-sm">
+                <span class="w-2 h-2 rounded-full bg-blue-500"></span>
+                <span>平台同款白底（2.1 优化版）亮点</span>
+              </div>
+              <ul class="space-y-2 text-neutral-300 leading-relaxed list-disc list-inside">
+                <li><strong class="text-white">与联想平台骨架 1:1 呼应：</strong>背景采用 #F8FAFC 浅灰蓝，卡片使用 #FFFFFF 纯白，搭配 10px 柔和弥散阴影。</li>
+                <li><strong class="text-white">结构化浅色指示牌：</strong>告警使用浅粉红底（#FEF2F2）配深红字，安全使用浅薄荷绿（#ECFDF5），符合最高级无障碍可读标准。</li>
+                <li><strong class="text-white">保留了高能 AI 交互：</strong>参数反问单选卡、白盒透视器、多模态拍照排障，全部以清爽白底呈现。</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- 原始截图证据对照卡 -->
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          <div class="bg-[#242424] border border-[#383838] rounded-lg p-3 space-y-2">
+            <div class="text-[11px] font-medium text-neutral-300 flex justify-between">
+              <span>原证据 1: AI助手主视窗</span>
+              <span class="text-neutral-500">570KB</span>
+            </div>
+            <div class="aspect-video bg-black/40 rounded overflow-hidden border border-neutral-700/60 flex items-center justify-center">
+              <img src="poc-images/ai-assistant.png" class="object-cover w-full h-full hover:scale-105 transition-all" alt="原版AI助手" onerror="this.parentElement.innerHTML='<span class=\'text-neutral-500 text-[10px]\'>图片已就绪 (本地可载入)</span>'">
+            </div>
+            <p class="text-[10px] text-neutral-400">白底大框但缺乏卡片容器包装</p>
+          </div>
+
+          <div class="bg-[#242424] border border-[#383838] rounded-lg p-3 space-y-2">
+            <div class="text-[11px] font-medium text-neutral-300 flex justify-between">
+              <span>原证据 2: 任务执行确认</span>
+              <span class="text-neutral-500">144KB</span>
+            </div>
+            <div class="aspect-video bg-black/40 rounded overflow-hidden border border-neutral-700/60 flex items-center justify-center">
+              <img src="poc-images/task-confirm.png" class="object-cover w-full h-full hover:scale-105 transition-all" alt="任务执行确认" onerror="this.parentElement.innerHTML='<span class=\'text-neutral-500 text-[10px]\'>图片已就绪 (本地可载入)</span>'">
+            </div>
+            <p class="text-[10px] text-neutral-400">单薄弹窗，缺少设备清单与预警</p>
+          </div>
+
+          <div class="bg-[#242424] border border-[#383838] rounded-lg p-3 space-y-2">
+            <div class="text-[11px] font-medium text-neutral-300 flex justify-between">
+              <span>原证据 3: 任务状态确认</span>
+              <span class="text-neutral-500">119KB</span>
+            </div>
+            <div class="aspect-video bg-black/40 rounded overflow-hidden border border-neutral-700/60 flex items-center justify-center">
+              <img src="poc-images/task-status.png" class="object-cover w-full h-full hover:scale-105 transition-all" alt="任务状态确认" onerror="this.parentElement.innerHTML='<span class=\'text-neutral-500 text-[10px]\'>图片已就绪 (本地可载入)</span>'">
+            </div>
+            <p class="text-[10px] text-neutral-400">缺少异步执行流水与重试动作</p>
+          </div>
+
+          <div class="bg-[#242424] border border-[#383838] rounded-lg p-3 space-y-2">
+            <div class="text-[11px] font-medium text-neutral-300 flex justify-between">
+              <span>原证据 4: 悬浮启动图标</span>
+              <span class="text-neutral-500">278KB</span>
+            </div>
+            <div class="aspect-video bg-black/40 rounded overflow-hidden border border-neutral-700/60 flex items-center justify-center">
+              <img src="poc-images/click-icon.png" class="object-cover w-full h-full hover:scale-105 transition-all" alt="启动图标" onerror="this.parentElement.innerHTML='<span class=\'text-neutral-500 text-[10px]\'>图片已就绪 (本地可载入)</span>'">
+            </div>
+            <p class="text-[10px] text-neutral-400">静态圆球，无智能态与状态交互</p>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    <!-- 右侧：设计属性与 PM 规格说明书 (Inspect & Spec Panel) -->
+    <aside class="w-80 border-l border-[#383838] bg-[#242424] flex flex-col shrink-0">
+      <div class="p-3 border-b border-[#383838] text-xs font-semibold text-neutral-400 uppercase tracking-wider flex items-center justify-between">
+        <span>产品规格说明 (PRD Spec)</span>
+        <span id="specBadge" class="text-[11px] px-2 py-0.5 rounded bg-blue-600 text-white font-medium">Frame 01</span>
+      </div>
+
+      <div class="flex-1 overflow-y-auto dark-scrollbar p-4 space-y-5 text-xs" id="specDetailContent">
+        <!-- JS 动态渲染当前选中的画板规格详情 -->
+      </div>
+    </aside>
+
+  </div>
+
+  <script>
+    // 8 大白底画板核心数据
+    const FRAMES_DATA = [
+      {
+        id: "frame-1",
+        title: "01. 常驻中枢与白底智能气泡",
+        category: "原版升级",
+        badge: "Entry & Floating FAB (Light)",
+        summary: "悬浮于联想平台右下角。纯白卡片结合微蓝毛玻璃阴影，呈现优雅的主动式设备健康探测气泡。",
+        render: () => `
+          <div class="p-6 bg-slate-100 text-slate-800 min-h-[500px] flex flex-col justify-between relative overflow-hidden">
+            <!-- 模拟联想设备管理平台白色后台底图 -->
+            <div class="opacity-40 filter blur-[1px] pointer-events-none space-y-4">
+              <div class="flex items-center space-x-3 bg-white p-3 rounded-lg border border-slate-200">
+                <div class="h-5 bg-blue-600 rounded w-28"></div>
+                <div class="h-4 bg-slate-200 rounded w-48"></div>
+              </div>
+              <div class="grid grid-cols-4 gap-4">
+                <div class="h-20 bg-white rounded-lg border border-slate-200 p-3"><div class="h-3 w-16 bg-slate-200 mb-2"></div><div class="h-6 w-10 bg-blue-100"></div></div>
+                <div class="h-20 bg-white rounded-lg border border-slate-200 p-3"><div class="h-3 w-16 bg-slate-200 mb-2"></div><div class="h-6 w-10 bg-emerald-100"></div></div>
+                <div class="h-20 bg-white rounded-lg border border-slate-200 p-3"><div class="h-3 w-16 bg-slate-200 mb-2"></div><div class="h-6 w-10 bg-amber-100"></div></div>
+                <div class="h-20 bg-white rounded-lg border border-slate-200 p-3"><div class="h-3 w-16 bg-slate-200 mb-2"></div><div class="h-6 w-10 bg-red-100"></div></div>
+              </div>
+              <div class="h-64 bg-white rounded-lg border border-slate-200"></div>
+            </div>
+
+            <!-- 悬浮在右下角的高保真白底 Agent 入口组件 -->
+            <div class="absolute bottom-8 right-8 flex items-end space-x-3">
+              <!-- 白底智能主动预警气泡 -->
+              <div class="bg-white/95 backdrop-blur border border-blue-200 rounded-2xl p-4 shadow-xl max-w-xs lenovo-shadow animate-bounce-slow">
+                <div class="flex items-center justify-between mb-1.5">
+                  <div class="flex items-center space-x-1.5 text-blue-600 font-semibold text-xs">
+                    <span class="w-2 h-2 rounded-full bg-blue-500 animate-ping"></span>
+                    <span>联想运维智能体</span>
+                  </div>
+                  <span class="text-[10px] text-slate-400 font-mono">10:42 AM</span>
+                </div>
+                <p class="text-xs text-slate-600 leading-relaxed">
+                  Hi Sharon，检测到研发部有 <span class="text-amber-600 font-bold bg-amber-50 px-1 py-0.5 rounded border border-amber-200">15 台</span> ThinkPad X1 电量低于 20% 且补丁已超期，需要一键排查吗？
+                </p>
+                <div class="mt-3 flex space-x-2">
+                  <button class="px-2.5 py-1 rounded bg-blue-600 hover:bg-blue-700 text-white text-[11px] font-medium shadow-sm transition-all">立即诊断</button>
+                  <button class="px-2.5 py-1 rounded bg-slate-100 hover:bg-slate-200 text-slate-600 text-[11px] border border-slate-200">稍后提醒</button>
+                </div>
+              </div>
+
+              <!-- 主体 FAB 图标 (经典联想科技蓝) -->
+              <div class="relative group cursor-pointer">
+                <div class="absolute -inset-1 bg-blue-500/30 rounded-full blur group-hover:bg-blue-500/50 transition duration-300"></div>
+                <div class="relative w-14 h-14 bg-gradient-to-tr from-blue-700 to-blue-500 rounded-full flex items-center justify-center shadow-xl border-2 border-white">
+                  <svg class="w-7 h-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+                  <span class="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white rounded-full text-[10px] flex items-center justify-center font-bold ring-2 ring-white">3</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        `,
+        specs: [
+          { label: "视觉底色", value: "纯白（#FFFFFF）结合 1px 细蓝边（#BFDBFE）" },
+          { label: "微投影", value: "0 10px 25px -5px rgba(15, 23, 42, 0.08)" },
+          { label: "契合度", value: "与联想设备平台白色后台 100% 视觉融合，无违和感" }
+        ],
+        interviewTips: "向面试官说明：保持与主平台一致的白底轻量设计，能最大程度降低运维人员的心智负担，让 AI 像原生功能一样自然。"
+      },
+      {
+        id: "frame-2",
+        title: "02. L1 查询：白底结构化资产健康看板",
+        category: "原版升级",
+        badge: "Structured Asset Card (Light)",
+        summary: "替换原版生硬的白底饼图，升级为高阶浅色语义卡片、分类告警药丸与快捷处置动作条。",
+        render: () => `
+          <div class="p-6 bg-white text-slate-800 min-h-[520px] flex flex-col justify-between">
+            <!-- 头部 -->
+            <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+              <div class="flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                <span class="text-sm font-semibold text-slate-800">联想智能设备助手 (L1 运维会话)</span>
+              </div>
+              <div class="text-xs text-slate-500">接口耗时: <span class="text-emerald-600 font-mono font-medium">1.2s (Fast)</span></div>
+            </div>
+
+            <!-- 会话区 -->
+            <div class="space-y-4 py-3">
+              <!-- 用户提问 -->
+              <div class="flex justify-end">
+                <div class="bg-blue-600 text-white text-xs px-4 py-2.5 rounded-2xl rounded-tr-none shadow-sm max-w-md">
+                  帮我排查当前全公司 ThinkPad 设备的告警情况，并按严重等级分类
+                </div>
+              </div>
+
+              <!-- Agent 白底结构化卡片回复 -->
+              <div class="flex items-start space-x-2.5">
+                <div class="w-8 h-8 rounded-full bg-blue-50 border border-blue-200 flex items-center justify-center shrink-0 text-xs font-bold text-blue-600">L</div>
+                <div class="bg-slate-50 border border-slate-200 rounded-2xl rounded-tl-none p-4 max-w-lg space-y-3 shadow-sm">
+                  <div class="flex items-center justify-between">
+                    <span class="text-xs font-semibold text-slate-800">全网资产运行健康看板 (共 342 台)</span>
+                    <span class="text-[11px] text-slate-500 bg-white px-2 py-0.5 rounded border border-slate-200">API: /v2/telemetry</span>
+                  </div>
+
+                  <!-- 告警指标栅格 (清爽浅色语义) -->
+                  <div class="grid grid-cols-3 gap-2.5">
+                    <div class="bg-red-50 border border-red-200 rounded-xl p-3">
+                      <div class="text-[11px] font-medium text-red-700">严重告警 (L3)</div>
+                      <div class="text-xl font-bold text-red-600 mt-0.5">6 <span class="text-xs font-normal text-slate-500">台</span></div>
+                      <div class="text-[10px] text-red-600/80 mt-1">CPU>95% / 磁盘满</div>
+                    </div>
+                    <div class="bg-amber-50 border border-amber-200 rounded-xl p-3">
+                      <div class="text-[11px] font-medium text-amber-800">警告告警 (L2)</div>
+                      <div class="text-xl font-bold text-amber-700 mt-0.5">15 <span class="text-xs font-normal text-slate-500">台</span></div>
+                      <div class="text-[10px] text-amber-700/80 mt-1">补丁超期 / 电池老化</div>
+                    </div>
+                    <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3">
+                      <div class="text-[11px] font-medium text-emerald-800">正常运行 (L1)</div>
+                      <div class="text-xl font-bold text-emerald-700 mt-0.5">321 <span class="text-xs font-normal text-slate-500">台</span></div>
+                      <div class="text-[10px] text-emerald-700/80 mt-1">健康率 93.8%</div>
+                    </div>
+                  </div>
+
+                  <!-- 快捷处置建议条 -->
+                  <div class="bg-white rounded-xl p-3 border border-slate-200 flex items-center justify-between text-xs">
+                    <span class="text-slate-700">💡 处置建议：对 6 台严重告警终端进行远程内存清理与补丁重推</span>
+                    <button class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-[11px] font-medium shrink-0 shadow-sm transition-all">生成处置任务</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 输入栏 -->
+            <div class="border-t border-slate-200 pt-3 flex items-center space-x-2">
+              <input type="text" placeholder="输入自然语言指令，例如：对深圳研发部设备批量下发杀毒策略..." class="flex-1 bg-slate-50 border border-slate-300 rounded-lg px-3.5 py-2 text-xs text-slate-800 placeholder-slate-400 focus:outline-none focus:border-blue-500 focus:bg-white transition-all" disabled>
+              <button class="px-4 py-2 bg-blue-600 text-white rounded-lg text-xs font-medium hover:bg-blue-700 shadow-sm">发送</button>
+            </div>
+          </div>
+        `,
+        specs: [
+          { label: "主背景色", value: "#FFFFFF (纯白) + #F8FAFC (浅蓝灰容器)" },
+          { label: "对比度标准", value: "满足 WCAG AAA 级可读性，深色文字易读不伤眼" },
+          { label: "组件交互", value: "每个卡片指标均支持点击下钻到管理平台设备详情列表" }
+        ],
+        interviewTips: "说明：在白色企业级平台中，通过 Red-50 / Amber-50 等浅底色标签能优雅区分危机程度，绝不给用户刺眼的视觉压迫。"
+      },
+      {
+        id: "frame-3",
+        title: "03. 核心补充：白底槽位反问与防呆机制",
+        category: "新增必备",
+        badge: "Slot Filling Dialog (Light)",
+        summary: "高危指令缺少关键参数时，Agent 弹出清晰的白底单选追问卡片，防止大模型概率猜测导致生产事故。",
+        render: () => `
+          <div class="p-6 bg-white text-slate-800 min-h-[520px] flex flex-col justify-between">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+              <span class="text-sm font-semibold text-amber-700 flex items-center space-x-1.5">
+                <svg class="w-4 h-4 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                <span>参数校验层 (Slot-Filling Guard)</span>
+              </span>
+              <span class="text-[11px] px-2 py-0.5 rounded bg-amber-100 text-amber-800 border border-amber-300 font-medium">缺少关键槽位: Scope</span>
+            </div>
+
+            <div class="space-y-4 py-3">
+              <!-- 用户模糊指令 -->
+              <div class="flex justify-end">
+                <div class="bg-blue-600 text-white text-xs px-4 py-2.5 rounded-2xl rounded-tr-none shadow-sm">
+                  帮我把研发部的电脑全部重启一下
+                </div>
+              </div>
+
+              <!-- Agent 白底反问卡片 -->
+              <div class="flex items-start space-x-2.5">
+                <div class="w-8 h-8 rounded-full bg-blue-50 border border-blue-200 flex items-center justify-center shrink-0 text-xs font-bold text-blue-600">L</div>
+                <div class="bg-slate-50 border border-amber-200 rounded-2xl rounded-tl-none p-4 max-w-lg space-y-3 shadow-sm">
+                  <div class="text-xs text-amber-800 font-semibold flex items-center space-x-1">
+                    <span>⚠️ 检测到批量高危操作，需要补齐执行范围</span>
+                  </div>
+                  <p class="text-xs text-slate-600 leading-relaxed">
+                    研发部当前登记在线设备共 <strong class="text-slate-900">68 台</strong>，其中有 <strong class="text-amber-700">42 台</strong> 正在运行编译与联调任务。请问您的具体执行意图是：
+                  </p>
+
+                  <!-- 槽位选项单选按钮组 (白底高精细) -->
+                  <div class="space-y-2">
+                    <label class="flex items-center space-x-3 p-3 rounded-xl bg-white border-2 border-blue-500 shadow-sm cursor-pointer">
+                      <input type="radio" name="slot" checked class="text-blue-600">
+                      <div class="text-xs">
+                        <div class="text-slate-900 font-semibold">仅重启已闲置/离线的设备 (26台) <span class="text-[10px] bg-emerald-100 text-emerald-800 px-1.5 py-0.2 rounded ml-1">推荐·零风险</span></div>
+                        <div class="text-slate-500 text-[11px] mt-0.5">安全无业务影响，无需中断员工当前工作</div>
+                      </div>
+                    </label>
+
+                    <label class="flex items-center space-x-3 p-3 rounded-xl bg-white border border-slate-200 hover:border-blue-400 cursor-pointer transition-all">
+                      <input type="radio" name="slot" class="text-blue-600">
+                      <div class="text-xs">
+                        <div class="text-slate-800 font-medium">下发弹窗预告，定于今晚 23:00 执行 (全员68台)</div>
+                        <div class="text-slate-500 text-[11px] mt-0.5">预留员工保存工作时间，符合企业 ITIL 运维合规要求</div>
+                      </div>
+                    </label>
+
+                    <label class="flex items-center space-x-3 p-3 rounded-xl bg-red-50/50 border border-red-200 hover:border-red-400 cursor-pointer transition-all">
+                      <input type="radio" name="slot" class="text-red-600">
+                      <div class="text-xs">
+                        <div class="text-red-700 font-medium">立即强制重启全量设备 (需二级审批)</div>
+                        <div class="text-red-500 text-[11px] mt-0.5">存在未保存代码丢失风险，将自动触发工单二次验签</div>
+                      </div>
+                    </label>
+                  </div>
+
+                  <div class="flex justify-end space-x-2 pt-2 border-t border-slate-200">
+                    <button class="px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-700 rounded-lg text-xs border border-slate-300">取消操作</button>
+                    <button class="px-4 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs font-medium shadow-sm">确认并进入安全验签</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-slate-100 rounded-lg p-2.5 border border-slate-200 text-[11px] text-slate-600 flex items-center justify-between">
+              <span>Harness 状态机：<code class="text-blue-700 font-semibold">STATE_AWAITING_SLOT_CONFIRMATION</code></span>
+              <span class="text-emerald-700 font-medium">✓ 确定性代码已拦截概率误判</span>
+            </div>
+          </div>
+        `,
+        specs: [
+          { label: "交互样式", value: "高亮选中蓝框（border-blue-500）与危险选项警示红框" },
+          { label: "风控逻辑", value: "在用户点击选择前，底层 API 处于严格只读阻断状态" },
+          { label: "设计底蕴", value: "充分体现 Sharon 的 B 端复杂交互设计与防呆经验" }
+        ],
+        interviewTips: "向面试官指出：大模型最大的弱点就是‘自作聪明’，我们的白底追问卡片用确定性状态机把选择权安全交还给人类。"
+      },
+      {
+        id: "frame-4",
+        title: "04. L2/L3 高危操作：白底 HITL 二次验签风控抽屉",
+        category: "原版升级",
+        badge: "HITL 5-Step Security Modal (Light)",
+        summary: "将原版只有两个按钮的「任务执行确认弹窗」，重构为企业级白底红顶的风控抽屉，包含 Dry-run 模拟清单与密码验签。",
+        render: () => `
+          <div class="p-6 bg-slate-100 min-h-[520px] flex items-center justify-center relative">
+            <!-- 沉浸式企业级白底风控弹窗 -->
+            <div class="bg-white border border-slate-200 rounded-2xl shadow-2xl max-w-lg w-full overflow-hidden lenovo-shadow">
+              <!-- 弹窗顶栏 (警示浅红企业级头栏) -->
+              <div class="bg-red-50 border-b border-red-200 px-6 py-4 flex items-center justify-between">
+                <div class="flex items-center space-x-2 text-red-700 font-bold text-sm">
+                  <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                  <span>高危运维操作二次验签 (HITL Security Gate)</span>
+                </div>
+                <span class="text-[11px] bg-red-600 text-white px-2 py-0.5 rounded font-mono font-bold">LEVEL-3 CRITICAL</span>
+              </div>
+
+              <!-- 弹窗内容 (白底清爽排版) -->
+              <div class="p-6 space-y-4 text-xs">
+                <!-- 影响面与操作摘要 -->
+                <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-200 space-y-2">
+                  <div class="grid grid-cols-2 gap-2.5 text-slate-600">
+                    <div>指令动作: <span class="text-slate-900 font-bold">批量静默关机 / 重启</span></div>
+                    <div>受影响终端: <span class="text-amber-700 font-bold">26 台 ThinkPad</span></div>
+                    <div>执行部门: <span class="text-slate-900">深圳研发部-前线终端组</span></div>
+                    <div>预估耗时: <span class="text-slate-900">约 180 秒</span></div>
+                  </div>
+                </div>
+
+                <!-- 变更影响面清单树 -->
+                <div class="space-y-1.5">
+                  <div class="text-slate-700 font-semibold">受影响设备清单 (Dry-run 演练通过):</div>
+                  <div class="bg-slate-50 rounded-lg p-3 max-h-24 overflow-y-auto custom-scrollbar text-[11px] font-mono space-y-1.5 border border-slate-200">
+                    <div class="flex justify-between text-slate-700"><span>LENOVO-RD-001 (ThinkPad X1)</span><span class="text-emerald-700 font-bold">✓ 允许关机 (已闲置)</span></div>
+                    <div class="flex justify-between text-slate-700"><span>LENOVO-RD-002 (ThinkPad P16)</span><span class="text-emerald-700 font-bold">✓ 允许关机 (已闲置)</span></div>
+                    <div class="flex justify-between text-slate-700"><span>LENOVO-RD-003 (ThinkPad T14)</span><span class="text-emerald-700 font-bold">✓ 允许关机 (已闲置)</span></div>
+                    <div class="flex justify-between text-slate-400"><span>... 另外 23 台设备已通过安全前置校验</span><span class="text-slate-400">Ready</span></div>
+                  </div>
+                </div>
+
+                <!-- 身份鉴权输入 -->
+                <div class="bg-blue-50/50 rounded-xl p-3.5 border border-blue-100 space-y-2">
+                  <div class="text-slate-700 font-medium">请输入当前管理员操作密码以签署执行令牌：</div>
+                  <input type="password" placeholder="输入 Lenovo IT Admin 凭证" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-slate-800 placeholder-slate-400 focus:outline-none focus:border-red-500 shadow-sm" value="••••••••••••">
+                  <div class="text-[10px] text-slate-500">审计追踪：本次操作将记录于企业 SOC 安全日志，操作人: Sharon (ITIL-L3-Admin)</div>
+                </div>
+              </div>
+
+              <!-- 弹窗底栏 -->
+              <div class="bg-slate-50 px-6 py-3.5 border-t border-slate-200 flex items-center justify-between">
+                <span class="text-[11px] text-slate-500">动态令牌倒计时: <span class="text-red-600 font-mono font-bold">59s</span></span>
+                <div class="flex space-x-2.5">
+                  <button class="px-3.5 py-1.5 bg-white hover:bg-slate-100 text-slate-700 rounded-lg text-xs border border-slate-300">取消返回</button>
+                  <button class="px-4 py-1.5 bg-red-600 hover:bg-red-700 text-white rounded-lg text-xs font-semibold shadow-md shadow-red-600/20">
+                    确认签署并下发
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `,
+        specs: [
+          { label: "设计对照", value: "对比原版无任何防护的裸露弹窗，实现五步严密风控" },
+          { label: "视觉语言", value: "红白相间警示风格，符合 ITIL 运维最高级别安全规范" },
+          { label: "技术规范", value: "令牌 60 秒限时防重放 (Anti-Replay Token)" }
+        ],
+        interviewTips: "说明：在真实千万级资产运维场景中，界面越白越干净，危险标识就要越清晰规范。 Sharon 的设计让企业管理层敢于真正放行 AI。"
+      },
+      {
+        id: "frame-5",
+        title: "05. 异步任务管线与终端状态流 (白底版)",
+        category: "原版升级",
+        badge: "Async Execution Pipeline (Light)",
+        summary: "将原版「任务状态确认弹窗」扩展为多终端并发下发、失败重试、排错建议一体化白底看板。",
+        render: () => `
+          <div class="p-6 bg-white text-slate-800 min-h-[520px] flex flex-col justify-between">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+              <div>
+                <div class="text-sm font-semibold text-slate-900">批量关机与重启任务执行追踪</div>
+                <div class="text-[11px] text-slate-500">Task ID: <span class="font-mono text-blue-600 font-medium">TSK-202610-8849</span></div>
+              </div>
+              <div class="flex items-center space-x-2">
+                <span class="px-2.5 py-1 rounded bg-blue-50 text-blue-700 border border-blue-200 text-xs font-medium">执行中 (25/26)</span>
+              </div>
+            </div>
+
+            <!-- 进度总览卡 -->
+            <div class="space-y-4 py-3">
+              <div class="bg-slate-50 rounded-xl p-4 border border-slate-200 space-y-3">
+                <div class="flex justify-between text-xs text-slate-700">
+                  <span>总体下发进度: <strong class="text-slate-900">96%</strong></span>
+                  <span>成功 24 | 执行中 1 | <span class="text-red-600 font-medium">失败 1</span></span>
+                </div>
+                <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden flex">
+                  <div class="bg-emerald-500 h-full" style="width: 92%"></div>
+                  <div class="bg-blue-500 h-full animate-pulse" style="width: 4%"></div>
+                  <div class="bg-red-500 h-full" style="width: 4%"></div>
+                </div>
+              </div>
+
+              <!-- 终端清单详细流 -->
+              <div class="space-y-2">
+                <div class="text-xs font-semibold text-slate-700">终端下发详情 (心跳监控):</div>
+                <div class="space-y-2 text-xs">
+                  <div class="bg-white border border-slate-200 rounded-xl p-3 flex items-center justify-between shadow-sm">
+                    <div class="flex items-center space-x-2">
+                      <span class="w-2.5 h-2.5 rounded-full bg-emerald-500"></span>
+                      <span class="font-mono text-slate-900 font-semibold">LENOVO-RD-001</span>
+                      <span class="text-slate-500">ThinkPad X1 Carbon Gen10</span>
+                    </div>
+                    <span class="text-emerald-700 font-medium text-[11px] bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200">✓ 关机完成 (0.8s)</span>
+                  </div>
+
+                  <div class="bg-white border border-slate-200 rounded-xl p-3 flex items-center justify-between shadow-sm">
+                    <div class="flex items-center space-x-2">
+                      <span class="w-2.5 h-2.5 rounded-full bg-blue-500 animate-spin"></span>
+                      <span class="font-mono text-slate-900 font-semibold">LENOVO-RD-002</span>
+                      <span class="text-slate-500">ThinkPad P16s</span>
+                    </div>
+                    <span class="text-blue-600 text-[11px] bg-blue-50 px-2 py-0.5 rounded border border-blue-200">正在保存未响应会话...</span>
+                  </div>
+
+                  <div class="bg-red-50 border border-red-200 rounded-xl p-3 flex items-center justify-between shadow-sm">
+                    <div class="flex items-center space-x-2">
+                      <span class="w-2.5 h-2.5 rounded-full bg-red-500"></span>
+                      <span class="font-mono text-red-900 font-semibold">LENOVO-RD-018</span>
+                      <span class="text-red-700">ThinkPad T14</span>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                      <span class="text-red-700 text-[11px] font-medium">✗ Client 通信超时 (504)</span>
+                      <button class="px-2.5 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-[10px] font-medium shadow-sm">一键重试</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 底栏快捷操作 -->
+            <div class="border-t border-slate-200 pt-3 flex justify-between items-center text-xs">
+              <span class="text-slate-500">任务日志已自动写入联想平台审计库</span>
+              <div class="flex space-x-2">
+                <button class="px-3.5 py-1.5 bg-white hover:bg-slate-100 text-slate-700 rounded-lg border border-slate-300">导出报表</button>
+                <button class="px-4 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium shadow-sm">完成并返回</button>
+              </div>
+            </div>
+          </div>
+        `,
+        specs: [
+          { label: "视觉底色", value: "纯白底（#FFFFFF）结合细微边框，契合 SaaS 系统风格" },
+          { label: "状态反馈", value: "针对失败终端支持就地一键单独下发重试" },
+          { label: "闭环管理", value: "完全替代原版无状态的单薄弹窗" }
+        ],
+        interviewTips: "说明：企业级真实网络经常存在断网设备，B 端 AI 助手的责任就是把不确定性通过白底列表拆解得一清二楚。"
+      },
+      {
+        id: "frame-6",
+        title: "06. 核心补充：白底 Harness 决策透视抽屉",
+        category: "新增必备",
+        badge: "Agent Trace Inspector (Light)",
+        summary: "面试绝杀利器！采用白底技术感卡片，向面试官清晰展示意图置信度、槽位抽取、RBAC鉴权与API调用链。",
+        render: () => `
+          <div class="p-6 bg-white text-slate-800 min-h-[520px] flex flex-col justify-between font-mono">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+              <div class="flex items-center space-x-2">
+                <span class="w-4 h-4 rounded bg-purple-600 flex items-center justify-center text-[10px] font-bold text-white">T</span>
+                <span class="text-xs font-bold text-slate-900 font-sans">Agent Harness 白盒透视器 (Runtime Inspector)</span>
+              </div>
+              <span class="text-[11px] text-purple-700 bg-purple-50 px-2.5 py-0.5 rounded border border-purple-200 font-bold">Trace ID: #tr-9981a</span>
+            </div>
+
+            <div class="space-y-3 py-3 text-xs">
+              <!-- 意图分类层 -->
+              <div class="bg-slate-50 rounded-xl p-3.5 border-l-4 border-blue-500 border border-slate-200 space-y-1">
+                <div class="flex justify-between items-center text-slate-700">
+                  <span class="font-bold text-blue-700 font-sans">Step 1. 意图路由 (Intent Router)</span>
+                  <span class="text-emerald-700 font-bold text-[11px]">置信度: 0.982</span>
+                </div>
+                <div class="text-[11px] text-slate-600">Class: <span class="text-slate-900 font-semibold">Batch_Device_Power_Control</span></div>
+                <div class="text-[11px] text-slate-500">Model: FewShot Router (Qwen-2.5-7B)</div>
+              </div>
+
+              <!-- 参数提取与槽位验证 -->
+              <div class="bg-slate-50 rounded-xl p-3.5 border-l-4 border-amber-500 border border-slate-200 space-y-1">
+                <div class="flex justify-between items-center text-slate-700">
+                  <span class="font-bold text-amber-700 font-sans">Step 2. 槽位抽取 (Entity Slot)</span>
+                  <span class="text-amber-800 text-[11px] bg-amber-100 px-1.5 py-0.2 rounded font-medium">已标准化 (Normalized)</span>
+                </div>
+                <div class="text-[11px] text-slate-800 bg-white p-2.5 rounded-lg border border-slate-200">
+                  <code>{ "target_dept": "RD_Dept", "action": "reboot", "scope": "idle_only", "count": 26 }</code>
+                </div>
+              </div>
+
+              <!-- 确定性护栏拦截检查 -->
+              <div class="bg-slate-50 rounded-xl p-3.5 border-l-4 border-emerald-500 border border-slate-200 space-y-1">
+                <div class="flex justify-between items-center text-slate-700">
+                  <span class="font-bold text-emerald-700 font-sans">Step 3. 确定性护栏 (Hard Guardrail)</span>
+                  <span class="text-emerald-700 font-bold text-[11px]">PASS (4 Checks)</span>
+                </div>
+                <div class="text-[11px] text-slate-600 space-y-0.5">
+                  <div>✓ 敏感指令黑名单过滤: <span class="text-emerald-700 font-semibold">Passed</span></div>
+                  <div>✓ RBAC 权限矩阵 (Sharon: SuperAdmin): <span class="text-emerald-700 font-semibold">Authorized</span></div>
+                  <div>✓ 核心机房服务器防误伤锁定: <span class="text-emerald-700 font-semibold">Isolated</span></div>
+                </div>
+              </div>
+
+              <!-- 工具调用耗时 -->
+              <div class="bg-slate-50 rounded-xl p-3.5 border-l-4 border-purple-500 border border-slate-200 space-y-1">
+                <div class="flex justify-between items-center text-slate-700">
+                  <span class="font-bold text-purple-700 font-sans">Step 4. OpenAPI 调用 (Tool Execution)</span>
+                  <span class="text-purple-700 text-[11px] font-semibold">Total: 412ms</span>
+                </div>
+                <div class="text-[11px] text-slate-600">POST /api/v3/devices/batch-action -> 200 OK</div>
+              </div>
+            </div>
+
+            <div class="bg-slate-50 p-2.5 rounded-lg border border-slate-200 text-[11px] text-slate-600 flex justify-between font-sans">
+              <span>Token 消耗: Prompt 382 / Completion 95 (Cost: ￥0.0018)</span>
+              <span class="text-blue-600 hover:underline cursor-pointer font-medium">查看完整审计流水日志</span>
+            </div>
+          </div>
+        `,
+        specs: [
+          { label: "视觉风格", value: "白底浅灰卡片 + 4 色边框线，科技感与严谨并存" },
+          { label: "面试威力", value: "直观证明 Sharon 懂 Token 成本、意图置信度与系统级鉴权" },
+          { label: "定位", value: "运维人员与管理者的白盒信任中枢" }
+        ],
+        interviewTips: "在面试时直截了当地讲：我们拒绝不可控的黑盒 Agent，每一次工具调用与护栏拦截都有据可查。"
+      },
+      {
+        id: "frame-7",
+        title: "07. 核心补充：多模态蓝屏/报错拍照诊断 (白底版)",
+        category: "新增必备",
+        badge: "Multimodal Visual OCR (Light)",
+        summary: "结合简历中多模态视觉特性的真实落地界面，现场拍照上传蓝屏，秒级提取错误码并推荐补丁。",
+        render: () => `
+          <div class="p-6 bg-white text-slate-800 min-h-[520px] flex flex-col justify-between">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+              <div class="flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-blue-500"></span>
+                <span class="text-sm font-semibold text-slate-900">多模态终端视觉排障 (Visual Diagnostic)</span>
+              </div>
+              <span class="text-xs text-blue-600 bg-blue-50 px-2 py-0.5 rounded border border-blue-200 font-medium">支持手机拍照/截屏上传</span>
+            </div>
+
+            <div class="space-y-4 py-3">
+              <!-- 用户上传蓝屏照片 -->
+              <div class="flex justify-end">
+                <div class="bg-blue-600 text-white text-xs p-3.5 rounded-2xl rounded-tr-none shadow-sm space-y-2 max-w-sm">
+                  <div class="text-[11px] text-blue-100">现场拍照上传:</div>
+                  <div class="bg-blue-700/60 rounded-lg p-2.5 border border-blue-400/40 flex items-center space-x-2.5">
+                    <div class="w-10 h-8 bg-blue-800 rounded flex items-center justify-center text-[10px] text-white font-mono font-bold">BSOD</div>
+                    <div class="text-[11px] truncate">photo_bluescreen_04.jpg (2.1MB)</div>
+                  </div>
+                  <div>这台电脑开机直接死机蓝屏了，查下是什么原因？</div>
+                </div>
+              </div>
+
+              <!-- Agent OCR 识别与知识库匹配 -->
+              <div class="flex items-start space-x-2.5">
+                <div class="w-8 h-8 rounded-full bg-blue-50 border border-blue-200 flex items-center justify-center shrink-0 text-xs font-bold text-blue-600">L</div>
+                <div class="bg-slate-50 border border-blue-200 rounded-2xl rounded-tl-none p-4 max-w-lg space-y-3 shadow-sm">
+                  <!-- OCR 提取结果 -->
+                  <div class="bg-white p-3 rounded-xl border border-slate-200 space-y-1 text-xs">
+                    <div class="text-blue-700 font-semibold flex items-center space-x-1">
+                      <span>🔍 视觉 OCR 提取关键崩溃代码：</span>
+                    </div>
+                    <div class="font-mono text-amber-700 font-bold text-[11px]">STOP CODE: MEMORY_MANAGEMENT (0x0000001A)</div>
+                    <div class="font-mono text-slate-500 text-[10px]">Faulting Module: ntkrnlmp.exe / BIOS v1.14</div>
+                  </div>
+
+                  <!-- 诊断结论 -->
+                  <p class="text-xs text-slate-600 leading-relaxed">
+                    经过联想知识库匹配与设备指纹比对：该机器为 <strong class="text-slate-900">ThinkPad T14 Gen3</strong>，该故障为上周推送的网卡驱动与当前 BIOS 版本冲突导致。
+                  </p>
+
+                  <!-- 解决方案与一键执行 -->
+                  <div class="bg-blue-50/60 border border-blue-200 rounded-xl p-3 space-y-2 text-xs">
+                    <div class="text-blue-900 font-semibold">推荐解决路径：</div>
+                    <ul class="text-[11px] text-slate-600 list-disc list-inside space-y-0.5">
+                      <li>远程下发 BIOS v1.18 修复固件并静默升级</li>
+                      <li>回滚 Intel Wi-Fi 驱动至稳定版 (v22.150)</li>
+                    </ul>
+                    <div class="flex justify-end pt-1">
+                      <button class="px-3.5 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-[11px] font-medium shadow-sm">一键下发修复补丁包</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="border-t border-slate-200 pt-3 flex justify-between items-center text-xs text-slate-500">
+              <span>视觉模型：Vision-LLM OCR + 联想 RAG 故障知识图谱</span>
+              <span class="text-emerald-600 font-medium">准确率: 98.4%</span>
+            </div>
+          </div>
+        `,
+        specs: [
+          { label: "视觉风格", value: "纯白底搭配联想经典品牌蓝，呈现专业硬件诊断质感" },
+          { label: "业务突破", value: "突破传统网页端死板文本输入，打通手机拍照硬件排障" },
+          { label: "闭环路径", value: "识图 → 提取错误代码 → 检索知识库 → 下发补丁" }
+        ],
+        interviewTips: "说明：运维场景中很多终端直接蓝屏断网，多模态拍照识图是打通线下硬件排障的杀手级功能。"
+      },
+      {
+        id: "frame-8",
+        title: "08. 联想设备管理平台 Design Tokens 规范表 (白底体系)",
+        category: "设计基建",
+        badge: "Light Design Tokens",
+        summary: "完整呈现与联想管理平台一致的白底企业级设计变量体系：色彩、卡片圆角、投影与无障碍标准。",
+        render: () => `
+          <div class="p-6 bg-white text-slate-800 min-h-[520px] space-y-5">
+            <div>
+              <div class="text-sm font-semibold text-slate-900">Lenovo Agent Design Tokens (白底企业级规范)</div>
+              <div class="text-xs text-slate-500 mt-0.5">与联想设备管理平台主系统 100% 统一的视觉变量</div>
+            </div>
+
+            <!-- 色彩系统 (白底亮色语义) -->
+            <div class="space-y-2">
+              <div class="text-xs font-semibold text-slate-700">1. 状态语义色彩 (Semantic Colors)</div>
+              <div class="grid grid-cols-4 gap-3 text-xs">
+                <div class="bg-blue-50 border border-blue-200 rounded-xl p-3 text-blue-900">
+                  <div class="font-bold">Brand Blue</div>
+                  <div class="text-[10px] text-blue-600 font-mono">#0066FF / #EFF6FF</div>
+                  <div class="text-[10px] mt-1 text-slate-600">主交互 / Agent 品牌底色</div>
+                </div>
+                <div class="bg-red-50 border border-red-200 rounded-xl p-3 text-red-900">
+                  <div class="font-bold">Critical Red</div>
+                  <div class="text-[10px] text-red-600 font-mono">#DC2626 / #FEF2F2</div>
+                  <div class="text-[10px] mt-1 text-slate-600">高危关机 / 紧急告警 (L3)</div>
+                </div>
+                <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-amber-900">
+                  <div class="font-bold">Warning Amber</div>
+                  <div class="text-[10px] text-amber-700 font-mono">#F59E0B / #FFFBEB</div>
+                  <div class="text-[10px] mt-1 text-slate-600">槽位追问 / 待确认 (L2)</div>
+                </div>
+                <div class="bg-emerald-50 border border-emerald-200 rounded-xl p-3 text-emerald-900">
+                  <div class="font-bold">Success Green</div>
+                  <div class="text-[10px] text-emerald-700 font-mono">#10B981 / #ECFDF5</div>
+                  <div class="text-[10px] mt-1 text-slate-600">健康状态 / 任务完成 (L1)</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- 组件设计规范 -->
+            <div class="grid grid-cols-2 gap-4 text-xs">
+              <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-200 space-y-2">
+                <div class="font-semibold text-slate-800">2. 卡片与边框层级</div>
+                <ul class="text-[11px] text-slate-600 space-y-1">
+                  <li>• 主浮窗/抽屉：<code class="text-blue-600 font-semibold">rounded-2xl (16px)</code>，1px 细灰边</li>
+                  <li>• 消息气泡：用户蓝底白字，Agent 白底浅边</li>
+                  <li>• 状态指示器：轻柔呼吸动效与圆角药丸胶囊</li>
+                </ul>
+              </div>
+
+              <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-200 space-y-2">
+                <div class="font-semibold text-slate-800">3. 人机协同三原则 (HITL Principles)</div>
+                <ul class="text-[11px] text-slate-600 space-y-1">
+                  <li>• <strong>白底高辨识度：</strong>告警与确认弹窗层级高于底层背景</li>
+                  <li>• <strong>不自作主张：</strong>置信度低于 0.85 必须反问</li>
+                  <li>• <strong>白盒留痕：</strong>每一次工具调用均带 Trace ID</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-[11px] text-slate-600 flex justify-between items-center">
+              <span>已适配联想企业级 Ant Design / Tailwind 企业级规范</span>
+              <span class="text-blue-600 font-medium">满足大厂 UI/UX 严苛走查标准</span>
+            </div>
+          </div>
+        `,
+        specs: [
+          { label: "标准体系", value: "联想企业级 Light Theme（纯白 + 浅蓝灰）" },
+          { label: "设计组件", value: "完全遵照 Auto-Layout 5.0 与 Token Studio" },
+          { label: "核心壁垒", value: "证明 Sharon 具备资深 B 端 UI/UX 与 AI 交互结合的顶级能力" }
+        ],
+        interviewTips: "说明：在浅色企业级系统中做好 Agent 的信息层级，比做暗黑科技风更考验设计师对间距、灰阶与边框细节的把控。"
+      }
+    ];
+
+    let currentFrameIndex = 0;
+
+    function init() {
+      renderNavList();
+      selectFrame(0);
+    }
+
+    function renderNavList() {
+      const container = document.getElementById("frameNavList");
+      container.innerHTML = FRAMES_DATA.map((frame, index) => {
+        const isOriginal = frame.category === "原版升级";
+        return `
+          <div onclick="selectFrame(${index})" class="frame-item p-2 rounded cursor-pointer transition-all flex items-center justify-between text-xs ${index === currentFrameIndex ? 'bg-[#383838] text-white font-medium shadow-sm' : 'text-neutral-400 hover:bg-[#2c2c2c] hover:text-neutral-200'}">
+            <div class="flex items-center space-x-2 truncate">
+              <span class="w-1.5 h-1.5 rounded-full ${isOriginal ? 'bg-blue-400' : 'bg-amber-400'}"></span>
+              <span class="truncate">${frame.title}</span>
+            </div>
+            <span class="text-[10px] px-1.5 py-0.2 rounded ${isOriginal ? 'bg-blue-900/40 text-blue-300' : 'bg-amber-900/40 text-amber-300'}">${frame.category}</span>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function selectFrame(index) {
+      currentFrameIndex = index;
+      renderNavList();
+      const frame = FRAMES_DATA[index];
+
+      const display = document.getElementById("activeFrameDisplay");
+      display.innerHTML = `
+        <div class="bg-[#2c2c2c] border-b border-[#383838] px-4 py-2.5 flex items-center justify-between">
+          <div class="flex items-center space-x-2">
+            <span class="text-xs font-semibold text-white">${frame.title}</span>
+            <span class="text-[11px] px-2 py-0.5 rounded bg-blue-600 text-white font-medium">${frame.badge}</span>
+          </div>
+          <div class="flex items-center space-x-2 text-[11px] text-neutral-400">
+            <span>Frame: 1024 × 640</span>
+            <div class="h-3 w-px bg-neutral-600"></div>
+            <span class="text-blue-400 font-medium">平台同款白底 ✓</span>
+          </div>
+        </div>
+        <div>
+          ${frame.render()}
+        </div>
+      `;
+
+      document.getElementById("specBadge").textContent = `Screen 0${index + 1}`;
+      const specContent = document.getElementById("specDetailContent");
+      specContent.innerHTML = `
+        <div class="space-y-2">
+          <div class="text-white font-semibold text-sm">${frame.title}</div>
+          <p class="text-neutral-300 text-xs leading-relaxed">${frame.summary}</p>
+        </div>
+
+        <div class="border-t border-[#383838] pt-3 space-y-2.5">
+          <div class="text-neutral-400 font-semibold uppercase text-[11px] tracking-wider">设计规格与约束 (Specs)</div>
+          ${frame.specs.map(s => `
+            <div class="bg-[#1e1e1e] p-2.5 rounded border border-[#383838] space-y-1">
+              <div class="text-blue-400 text-[11px] font-medium">${s.label}</div>
+              <div class="text-neutral-200 text-xs">${s.value}</div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="border-t border-[#383838] pt-3 space-y-2">
+          <div class="flex items-center space-x-1.5 text-blue-400 font-semibold text-xs">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/></svg>
+            <span>面试答辩口述要点 (PM 说辞)</span>
+          </div>
+          <div class="bg-blue-950/40 border border-blue-800/40 rounded-lg p-3 text-blue-200 text-xs leading-relaxed">
+            "${frame.interviewTips}"
+          </div>
+        </div>
+
+        <div class="border-t border-[#383838] pt-3">
+          <button onclick="switchMainView('compare')" class="w-full py-2 bg-[#2c2c2c] hover:bg-[#383838] text-neutral-300 rounded text-xs border border-[#383838] flex items-center justify-center space-x-1.5">
+            <span>对比原版 PoC 截图</span>
+            <span>→</span>
+          </button>
+        </div>
+      `;
+    }
+
+    function switchMainView(mode) {
+      const designBtn = document.getElementById("viewDesign");
+      const compareBtn = document.getElementById("viewCompare");
+      const designBox = document.getElementById("designContainer");
+      const compareBox = document.getElementById("compareContainer");
+
+      if (mode === 'design') {
+        designBtn.className = "px-3 py-1 rounded text-xs font-medium bg-[#383838] text-white shadow-sm transition-all flex items-center space-x-1.5";
+        compareBtn.className = "px-3 py-1 rounded text-xs font-medium text-neutral-400 hover:text-white transition-all flex items-center space-x-1.5";
+        designBox.classList.remove('hidden');
+        compareBox.classList.add('hidden');
+      } else {
+        compareBtn.className = "px-3 py-1 rounded text-xs font-medium bg-[#383838] text-white shadow-sm transition-all flex items-center space-x-1.5";
+        designBtn.className = "px-3 py-1 rounded text-xs font-medium text-neutral-400 hover:text-white transition-all flex items-center space-x-1.5";
+        designBox.classList.add('hidden');
+        compareBox.classList.remove('hidden');
+      }
+    }
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowDown" || e.key === "ArrowRight") {
+        if (currentFrameIndex < FRAMES_DATA.length - 1) {
+          selectFrame(currentFrameIndex + 1);
+        }
+      } else if (e.key === "ArrowUp" || e.key === "ArrowLeft") {
+        if (currentFrameIndex > 0) {
+          selectFrame(currentFrameIndex - 1);
+        }
+      }
+    });
+
+    init();
+  </script>
+</body>
+</html>

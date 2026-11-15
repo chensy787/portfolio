@@ -1,0 +1,7 @@
+.trae-html-share-packages/
+.screenshots/
+*.py
+*.bat
+progress.md
+content-structure.md
+design-spec.md

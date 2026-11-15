@@ -1,0 +1,348 @@
+<svg width="1280" height="700" viewBox="0 0 1280 700" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap');
+      text {
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+      }
+    </style>
+    <filter id="card-shadow" x="-3%" y="-2%" width="106%" height="106%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="2" stdDeviation="3" flood-color="#0F172A" flood-opacity="0.04"/>
+      <feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#0F172A" flood-opacity="0.03"/>
+    </filter>
+    <linearGradient id="admin-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0D9488"/>
+      <stop offset="100%" stop-color="#059669"/>
+    </linearGradient>
+    <linearGradient id="user-grad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2563EB"/>
+      <stop offset="100%" stop-color="#1D4ED8"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1280" height="700" fill="#F8FAFC"/>
+
+  <!-- ==================== HEADER ==================== -->
+  <g id="Header">
+    <text x="36" y="58" font-size="21" font-weight="700" fill="#0F172A">双端闭环业务模式与 RAG 离线/在线双链路工程架构</text>
+    <text x="36" y="81" font-size="11.5" fill="#64748B">打通【知识管理员沉淀治理】与【员工问答溯源反馈】·  5 段离线数据流水线 + 5 段在线推理流水线 + 纠错反哺飞轮</text>
+
+    <!-- Top Status Pills -->
+    <g transform="translate(738, 48)">
+      <rect x="0" y="0" width="160" height="28" rx="14" fill="#ECFDF5" stroke="#A7F3D0" stroke-width="1"/>
+      <circle cx="14" cy="14" r="4" fill="#059669"/>
+      <text x="24" y="18" font-size="11" font-weight="600" fill="#059669">知识管理员端 (离线治理)</text>
+
+      <rect x="170" y="0" width="160" height="28" rx="14" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+      <circle cx="184" cy="14" r="4" fill="#2563EB"/>
+      <text x="194" y="18" font-size="11" font-weight="600" fill="#2563EB">员工问答端 (在线消费)</text>
+
+      <rect x="340" y="0" width="166" height="28" rx="14" fill="#F5F3FF" stroke="#DDD6FE" stroke-width="1"/>
+      <circle cx="354" cy="14" r="4" fill="#7C3AED"/>
+      <text x="364" y="18" font-size="11" font-weight="600" fill="#7C3AED">双向纠错闭环飞轮</text>
+    </g>
+
+    <line x1="36" y1="104" x2="1244" y2="104" stroke="#E2E8F0" stroke-width="1"/>
+  </g>
+
+  <!-- ==================== TOP LEVEL: DUAL-TERMINAL BUSINESS LOOP ==================== -->
+  <g id="Dual-Terminal Business Loop" transform="translate(36, 118)">
+    <rect x="0" y="0" width="1208" height="122" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1" filter="url(#card-shadow)"/>
+
+    <!-- Left: Admin Card -->
+    <g transform="translate(14, 12)">
+      <rect x="0" y="0" width="186" height="98" rx="10" fill="#F0FDFA" stroke="#99F6E4" stroke-width="1"/>
+      <rect x="12" y="12" width="28" height="28" rx="7" fill="url(#admin-grad)"/>
+      <path d="M26 19C24.34 19 23 20.34 23 22C23 23.66 24.34 25 26 25C27.66 25 29 23.66 29 22C29 20.34 27.66 19 26 19ZM20 30C20 28 24 26.9 26 26.9C28 26.9 32 28 32 30V31H20V30Z" fill="#FFFFFF"/>
+      <text x="48" y="26" font-size="13" font-weight="700" fill="#0F766E">知识管理员端</text>
+      <text x="48" y="39" font-size="9.5" fill="#14B8A6">KNOWLEDGE OPS</text>
+      <line x1="12" y1="48" x2="174" y2="48" stroke="#CCFBF1" stroke-width="1"/>
+      <text x="12" y="66" font-size="10.5" font-weight="600" fill="#134E4A">导入 · 分组 · 更新 · 重试</text>
+      <text x="12" y="82" font-size="9.5" fill="#14B8A6">供给端：持续维护企业数据资产</text>
+    </g>
+
+    <!-- Center: 6 Flow Steps in Loop -->
+    <g transform="translate(210, 16)">
+      <!-- Connecting Track Background -->
+      <path d="M 40 42 L 740 42 C 770 42 770 88 740 88 L 40 88 C 10 88 10 42 40 42 Z" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1.2" stroke-dasharray="3 3"/>
+
+      <!-- Node 1: 导入资料 -->
+      <g transform="translate(18, 18)">
+        <rect x="0" y="0" width="102" height="48" rx="8" fill="#FFFFFF" stroke="#14B8A6" stroke-width="1.2"/>
+        <text x="51" y="21" font-size="11" font-weight="700" fill="#0F766E" text-anchor="middle">① 导入资料</text>
+        <text x="51" y="36" font-size="9" fill="#64748B" text-anchor="middle">多源文档上传</text>
+      </g>
+      <path d="M 124 42 L 136 42" stroke="#14B8A6" stroke-width="1.5" stroke-linecap="round"/>
+      <polygon points="138,42 134,39 134,45" fill="#14B8A6"/>
+
+      <!-- Node 2: 解析与同步 -->
+      <g transform="translate(142, 18)">
+        <rect x="0" y="0" width="102" height="48" rx="8" fill="#FFFFFF" stroke="#14B8A6" stroke-width="1.2"/>
+        <text x="51" y="21" font-size="11" font-weight="700" fill="#0F766E" text-anchor="middle">② 解析与同步</text>
+        <text x="51" y="36" font-size="9" fill="#64748B" text-anchor="middle">结构化清洗分块</text>
+      </g>
+      <path d="M 248 42 L 260 42" stroke="#14B8A6" stroke-width="1.5" stroke-linecap="round"/>
+      <polygon points="262,42 258,39 258,45" fill="#14B8A6"/>
+
+      <!-- Node 3: 形成知识库 -->
+      <g transform="translate(266, 18)">
+        <rect x="0" y="0" width="106" height="48" rx="8" fill="#FFFFFF" stroke="#0D9488" stroke-width="1.5"/>
+        <text x="53" y="21" font-size="11" font-weight="700" fill="#0F766E" text-anchor="middle">③ 形成知识库</text>
+        <text x="53" y="36" font-size="9" fill="#0D9488" text-anchor="middle">向量与倒排索引</text>
+      </g>
+      <!-- Central Handover Arrow (Green to Blue) -->
+      <path d="M 376 42 L 396 42" stroke="#3B82F6" stroke-width="2" stroke-linecap="round"/>
+      <polygon points="400,42 393,38 393,46" fill="#3B82F6"/>
+
+      <!-- Node 4: 员工提问 -->
+      <g transform="translate(404, 18)">
+        <rect x="0" y="0" width="102" height="48" rx="8" fill="#FFFFFF" stroke="#3B82F6" stroke-width="1.2"/>
+        <text x="51" y="21" font-size="11" font-weight="700" fill="#1E40AF" text-anchor="middle">④ 员工提问</text>
+        <text x="51" y="36" font-size="9" fill="#64748B" text-anchor="middle">意图理解/改写</text>
+      </g>
+      <path d="M 510 42 L 522 42" stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round"/>
+      <polygon points="524,42 520,39 520,45" fill="#3B82F6"/>
+
+      <!-- Node 5: 带来源回答 -->
+      <g transform="translate(528, 18)">
+        <rect x="0" y="0" width="106" height="48" rx="8" fill="#FFFFFF" stroke="#3B82F6" stroke-width="1.2"/>
+        <text x="53" y="21" font-size="11" font-weight="700" fill="#1E40AF" text-anchor="middle">⑤ 带来源回答</text>
+        <text x="53" y="36" font-size="9" fill="#64748B" text-anchor="middle">置信度引用可溯源</text>
+      </g>
+      <path d="M 638 42 L 650 42" stroke="#3B82F6" stroke-width="1.5" stroke-linecap="round"/>
+      <polygon points="652,42 648,39 648,45" fill="#3B82F6"/>
+
+      <!-- Node 6: 反馈纠错 -->
+      <g transform="translate(656, 18)">
+        <rect x="0" y="0" width="102" height="48" rx="8" fill="#EFF6FF" stroke="#2563EB" stroke-width="1.5"/>
+        <text x="51" y="21" font-size="11" font-weight="700" fill="#1D4ED8" text-anchor="middle">⑥ 反馈纠错</text>
+        <text x="51" y="36" font-size="9" fill="#2563EB" text-anchor="middle">点赞/点踩/批注</text>
+      </g>
+
+      <!-- Bottom Return Loop Track (Closed Flywheel Arrow) -->
+      <path d="M 707 68 L 707 88 L 70 88 L 70 68" fill="none" stroke="#7C3AED" stroke-width="1.6" stroke-dasharray="4 3"/>
+      <polygon points="70,66 66,74 74,74" fill="#7C3AED"/>
+      <rect x="290" y="78" width="206" height="20" rx="10" fill="#F5F3FF" stroke="#DDD6FE" stroke-width="1"/>
+      <text x="393" y="92" font-size="9.5" font-weight="600" fill="#7C3AED" text-anchor="middle">🔄 纠错用例反哺切片与知识增量更新</text>
+    </g>
+
+    <!-- Right: Employee User Card -->
+    <g transform="translate(1008, 12)">
+      <rect x="0" y="0" width="186" height="98" rx="10" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+      <rect x="12" y="12" width="28" height="28" rx="7" fill="url(#user-grad)"/>
+      <path d="M26 19C24.34 19 23 20.34 23 22C23 23.66 24.34 25 26 25C27.66 25 29 23.66 29 22C29 20.34 27.66 19 26 19ZM20 30C20 28 24 26.9 26 26.9C28 26.9 32 28 32 30V31H20V30Z" fill="#FFFFFF"/>
+      <text x="48" y="26" font-size="13" font-weight="700" fill="#1E40AF">员工问答端</text>
+      <text x="48" y="39" font-size="9.5" fill="#3B82F6">SMART Q&amp;A USER</text>
+      <line x1="12" y1="48" x2="174" y2="48" stroke="#DBEAFE" stroke-width="1"/>
+      <text x="12" y="66" font-size="10.5" font-weight="600" fill="#1E3A8A">提问 · 追问 · 溯源 · 反馈</text>
+      <text x="12" y="82" font-size="9.5" fill="#3B82F6">消费端：高频交互与真实业务验证</text>
+    </g>
+  </g>
+
+  <!-- ==================== MIDDLE LEVEL: OFFLINE PIPELINE (DATA PREP) ==================== -->
+  <g id="Offline Pipeline - Data Preparation" transform="translate(36, 252)">
+    <rect x="0" y="0" width="1208" height="186" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1" filter="url(#card-shadow)"/>
+    
+    <!-- Left Accent Stripe -->
+    <path d="M0 12C0 5.37 5.37 0 12 0H14V186H12C5.37 186 0 180.63 0 174V12Z" fill="#0D9488"/>
+
+    <!-- Section Title & Tag -->
+    <text x="24" y="24" font-size="14" font-weight="700" fill="#0F172A">离线工程链路：数据准备与知识入库流水线 (Offline Pipeline)</text>
+    <text x="420" y="24" font-size="11" fill="#64748B">知识管理员端发起的文档结构化清洗、切片分块、向量化与建库全过程</text>
+    <rect x="1108" y="10" width="86" height="22" rx="11" fill="#CCFBF1" stroke="#99F6E4" stroke-width="1"/>
+    <text x="1151" y="25" font-size="10" font-weight="700" fill="#0F766E" text-anchor="middle">数据供给保障</text>
+
+    <!-- 5 Offline Process Step Cards (Centered layout: 5 * 212 + 4 * 26 = 1164) -->
+    <g transform="translate(22, 38)">
+      <!-- Step 1: 文档采集 -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="212" height="134" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+        <rect x="10" y="10" width="20" height="20" rx="4" fill="#0D9488"/>
+        <text x="20" y="24" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text>
+        <text x="36" y="25" font-size="12" font-weight="700" fill="#0F172A">文档采集</text>
+        <text x="10" y="47" font-size="10" font-weight="600" fill="#475569">处理内容：</text>
+        <text x="10" y="62" font-size="9.5" fill="#64748B">从多源(文件系统/DB/API)</text>
+        <text x="10" y="76" font-size="9.5" fill="#64748B">获取各类型原始格式文档。</text>
+        <!-- Metric Tag -->
+        <rect x="10" y="96" width="192" height="26" rx="6" fill="#CCFBF1" stroke="#99F6E4" stroke-width="1"/>
+        <text x="18" y="113" font-size="10" font-weight="600" fill="#0F766E">关键指标：格式覆盖率</text>
+      </g>
+      <!-- Arrow 1->2 -->
+      <path d="M 216 67 L 234 67" stroke="#CBD5E1" stroke-width="1.8" stroke-linecap="round"/>
+      <polygon points="236,67 231,63 231,71" fill="#CBD5E1"/>
+
+      <!-- Step 2: 文档解析 -->
+      <g transform="translate(238, 0)">
+        <rect x="0" y="0" width="212" height="134" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+        <rect x="10" y="10" width="20" height="20" rx="4" fill="#0D9488"/>
+        <text x="20" y="24" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">2</text>
+        <text x="36" y="25" font-size="12" font-weight="700" fill="#0F172A">文档解析</text>
+        <text x="10" y="47" font-size="10" font-weight="600" fill="#475569">处理内容：</text>
+        <text x="10" y="62" font-size="9.5" fill="#64748B">PDF/Word/PPT/表格清洗，</text>
+        <text x="10" y="76" font-size="9.5" fill="#64748B">转换为标准 Markdown 文本。</text>
+        <!-- Metric Tag -->
+        <rect x="10" y="96" width="192" height="26" rx="6" fill="#CCFBF1" stroke="#99F6E4" stroke-width="1"/>
+        <text x="18" y="113" font-size="10" font-weight="600" fill="#0F766E">关键指标：解析准确率</text>
+      </g>
+      <!-- Arrow 2->3 -->
+      <path d="M 454 67 L 472 67" stroke="#CBD5E1" stroke-width="1.8" stroke-linecap="round"/>
+      <polygon points="474,67 469,63 469,71" fill="#CBD5E1"/>
+
+      <!-- Step 3: 文本分块 -->
+      <g transform="translate(476, 0)">
+        <rect x="0" y="0" width="212" height="134" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+        <rect x="10" y="10" width="20" height="20" rx="4" fill="#0D9488"/>
+        <text x="20" y="24" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">3</text>
+        <text x="36" y="25" font-size="12" font-weight="700" fill="#0F172A">文本分块 (Chunking)</text>
+        <text x="10" y="47" font-size="10" font-weight="600" fill="#475569">处理内容：</text>
+        <text x="10" y="62" font-size="9.5" fill="#64748B">按标题层级与滑动窗口切片，</text>
+        <text x="10" y="76" font-size="9.5" fill="#64748B">最大化保留上下文语义完整。</text>
+        <!-- Metric Tag -->
+        <rect x="10" y="96" width="192" height="26" rx="6" fill="#CCFBF1" stroke="#99F6E4" stroke-width="1"/>
+        <text x="18" y="113" font-size="10" font-weight="600" fill="#0F766E">关键指标：分块语义质量</text>
+      </g>
+      <!-- Arrow 3->4 -->
+      <path d="M 692 67 L 710 67" stroke="#CBD5E1" stroke-width="1.8" stroke-linecap="round"/>
+      <polygon points="712,67 707,63 707,71" fill="#CBD5E1"/>
+
+      <!-- Step 4: 向量化 -->
+      <g transform="translate(714, 0)">
+        <rect x="0" y="0" width="212" height="134" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+        <rect x="10" y="10" width="20" height="20" rx="4" fill="#0D9488"/>
+        <text x="20" y="24" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">4</text>
+        <text x="36" y="25" font-size="12" font-weight="700" fill="#0F172A">向量化 (Embedding)</text>
+        <text x="10" y="47" font-size="10" font-weight="600" fill="#475569">处理内容：</text>
+        <text x="10" y="62" font-size="9.5" fill="#64748B">调用 Embedding 模型转换，</text>
+        <text x="10" y="76" font-size="9.5" fill="#64748B">将文本切片转为高维密集向量。</text>
+        <!-- Metric Tag -->
+        <rect x="10" y="96" width="192" height="26" rx="6" fill="#CCFBF1" stroke="#99F6E4" stroke-width="1"/>
+        <text x="18" y="113" font-size="10" font-weight="600" fill="#0F766E">关键指标：语义保真度</text>
+      </g>
+      <!-- Arrow 4->5 -->
+      <path d="M 930 67 L 948 67" stroke="#CBD5E1" stroke-width="1.8" stroke-linecap="round"/>
+      <polygon points="950,67 945,63 945,71" fill="#CBD5E1"/>
+
+      <!-- Step 5: 索引存储 -->
+      <g transform="translate(952, 0)">
+        <rect x="0" y="0" width="212" height="134" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+        <rect x="10" y="10" width="20" height="20" rx="4" fill="#0D9488"/>
+        <text x="20" y="24" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">5</text>
+        <text x="36" y="25" font-size="12" font-weight="700" fill="#0F172A">索引存储</text>
+        <text x="10" y="47" font-size="10" font-weight="600" fill="#475569">处理内容：</text>
+        <text x="10" y="62" font-size="9.5" fill="#64748B">向量写入库并建立近似索引，</text>
+        <text x="10" y="76" font-size="9.5" fill="#64748B">同步构建 BM25 倒排索引。</text>
+        <!-- Metric Tag -->
+        <rect x="10" y="96" width="192" height="26" rx="6" fill="#CCFBF1" stroke="#99F6E4" stroke-width="1"/>
+        <text x="18" y="113" font-size="10" font-weight="600" fill="#0F766E">关键指标：检索延迟与吞吐</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ==================== BOTTOM LEVEL: ONLINE PIPELINE (QUERY PROCESSING) ==================== -->
+  <g id="Online Pipeline - Query Processing" transform="translate(36, 450)">
+    <rect x="0" y="0" width="1208" height="186" rx="12" fill="#FFFFFF" stroke="#E2E8F0" stroke-width="1" filter="url(#card-shadow)"/>
+    
+    <!-- Left Accent Stripe -->
+    <path d="M0 12C0 5.37 5.37 0 12 0H14V186H12C5.37 186 0 180.63 0 174V12Z" fill="#2563EB"/>
+
+    <!-- Section Title & Tag -->
+    <text x="24" y="24" font-size="14" font-weight="700" fill="#0F172A">在线工程链路：查询理解与大模型推理流水线 (Online Pipeline)</text>
+    <text x="440" y="24" font-size="11" fill="#64748B">员工提问触发的意图改写、混合检索召回、精排重排序、提示词组装与答案生成</text>
+    <rect x="1108" y="10" width="86" height="22" rx="11" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+    <text x="1151" y="25" font-size="10" font-weight="700" fill="#2563EB" text-anchor="middle">用户体验核心</text>
+
+    <!-- 5 Online Process Step Cards -->
+    <g transform="translate(22, 38)">
+      <!-- Step 1: 查询理解 -->
+      <g transform="translate(0, 0)">
+        <rect x="0" y="0" width="212" height="134" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+        <rect x="10" y="10" width="20" height="20" rx="4" fill="#2563EB"/>
+        <text x="20" y="24" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">1</text>
+        <text x="36" y="25" font-size="12" font-weight="700" fill="#0F172A">查询理解 (Query)</text>
+        <text x="10" y="47" font-size="10" font-weight="600" fill="#475569">处理内容：</text>
+        <text x="10" y="62" font-size="9.5" fill="#64748B">解析真实意图与实体参数，</text>
+        <text x="10" y="76" font-size="9.5" fill="#64748B">必要时执行 Query 改写补全。</text>
+        <!-- Metric Tag -->
+        <rect x="10" y="96" width="192" height="26" rx="6" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+        <text x="18" y="113" font-size="10" font-weight="600" fill="#1E40AF">关键指标：意图识别准确率</text>
+      </g>
+      <!-- Arrow 1->2 -->
+      <path d="M 216 67 L 234 67" stroke="#CBD5E1" stroke-width="1.8" stroke-linecap="round"/>
+      <polygon points="236,67 231,63 231,71" fill="#CBD5E1"/>
+
+      <!-- Step 2: 向量与混合检索 -->
+      <g transform="translate(238, 0)">
+        <rect x="0" y="0" width="212" height="134" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+        <rect x="10" y="10" width="20" height="20" rx="4" fill="#2563EB"/>
+        <text x="20" y="24" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">2</text>
+        <text x="36" y="25" font-size="12" font-weight="700" fill="#0F172A">向量与混合检索</text>
+        <text x="10" y="47" font-size="10" font-weight="600" fill="#475569">处理内容：</text>
+        <text x="10" y="62" font-size="9.5" fill="#64748B">Dense 向量语义相似度 +</text>
+        <text x="10" y="76" font-size="9.5" fill="#64748B">Sparse 关键词倒排并行召回。</text>
+        <!-- Metric Tag -->
+        <rect x="10" y="96" width="192" height="26" rx="6" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+        <text x="18" y="113" font-size="10" font-weight="600" fill="#1E40AF">关键指标：召回率 (Recall@K)</text>
+      </g>
+      <!-- Arrow 2->3 -->
+      <path d="M 454 67 L 472 67" stroke="#CBD5E1" stroke-width="1.8" stroke-linecap="round"/>
+      <polygon points="474,67 469,63 469,71" fill="#CBD5E1"/>
+
+      <!-- Step 3: 重排序 (Rerank) -->
+      <g transform="translate(476, 0)">
+        <rect x="0" y="0" width="212" height="134" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+        <rect x="10" y="10" width="20" height="20" rx="4" fill="#2563EB"/>
+        <text x="20" y="24" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">3</text>
+        <text x="36" y="25" font-size="12" font-weight="700" fill="#0F172A">重排序 (Rerank)</text>
+        <text x="10" y="47" font-size="10" font-weight="600" fill="#475569">处理内容：</text>
+        <text x="10" y="62" font-size="9.5" fill="#64748B">使用 Cross-Encoder 模型打分，</text>
+        <text x="10" y="76" font-size="9.5" fill="#64748B">二次深度精排提升上下文相关。</text>
+        <!-- Metric Tag -->
+        <rect x="10" y="96" width="192" height="26" rx="6" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+        <text x="18" y="113" font-size="10" font-weight="600" fill="#1E40AF">关键指标：精排准确率</text>
+      </g>
+      <!-- Arrow 3->4 -->
+      <path d="M 692 67 L 710 67" stroke="#CBD5E1" stroke-width="1.8" stroke-linecap="round"/>
+      <polygon points="712,67 707,63 707,71" fill="#CBD5E1"/>
+
+      <!-- Step 4: 上下文组装 -->
+      <g transform="translate(714, 0)">
+        <rect x="0" y="0" width="212" height="134" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+        <rect x="10" y="10" width="20" height="20" rx="4" fill="#2563EB"/>
+        <text x="20" y="24" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">4</text>
+        <text x="36" y="25" font-size="12" font-weight="700" fill="#0F172A">上下文组装</text>
+        <text x="10" y="47" font-size="10" font-weight="600" fill="#475569">处理内容：</text>
+        <text x="10" y="62" font-size="9.5" fill="#64748B">时效性校验过滤，将高分片段</text>
+        <text x="10" y="76" font-size="9.5" fill="#64748B">与防幻觉指令拼接为结构化Prompt。</text>
+        <!-- Metric Tag -->
+        <rect x="10" y="96" width="192" height="26" rx="6" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+        <text x="18" y="113" font-size="10" font-weight="600" fill="#1E40AF">关键指标：上下文有效利用率</text>
+      </g>
+      <!-- Arrow 4->5 -->
+      <path d="M 930 67 L 948 67" stroke="#CBD5E1" stroke-width="1.8" stroke-linecap="round"/>
+      <polygon points="950,67 945,63 945,71" fill="#CBD5E1"/>
+
+      <!-- Step 5: 答案生成与溯源 -->
+      <g transform="translate(952, 0)">
+        <rect x="0" y="0" width="212" height="134" rx="8" fill="#F8FAFC" stroke="#E2E8F0" stroke-width="1"/>
+        <rect x="10" y="10" width="20" height="20" rx="4" fill="#2563EB"/>
+        <text x="20" y="24" font-size="10" font-weight="700" fill="#FFFFFF" text-anchor="middle">5</text>
+        <text x="36" y="25" font-size="12" font-weight="700" fill="#0F172A">答案生成与溯源</text>
+        <text x="10" y="47" font-size="10" font-weight="600" fill="#475569">处理内容：</text>
+        <text x="10" y="62" font-size="9.5" fill="#64748B">大模型基于上下文生成带引用回答，</text>
+        <text x="10" y="76" font-size="9.5" fill="#64748B">置信度不足或冲突时主动拒答。</text>
+        <!-- Metric Tag -->
+        <rect x="10" y="96" width="192" height="26" rx="6" fill="#EFF6FF" stroke="#BFDBFE" stroke-width="1"/>
+        <text x="18" y="113" font-size="10" font-weight="600" fill="#1E40AF">关键指标：回答准确率与忠实度</text>
+      </g>
+    </g>
+  </g>
+
+  <!-- ==================== FOOTER ==================== -->
+  <g id="Footer" transform="translate(36, 648)">
+    <rect x="0" y="0" width="1208" height="36" rx="6" fill="#F1F5F9" stroke="#E2E8F0" stroke-width="1"/>
+    <text x="14" y="22" font-size="11" font-weight="700" fill="#0F172A">💡 架构设计哲学：</text>
+    <text x="110" y="22" font-size="10.5" fill="#475569">知识系统不是静态的检索工具，而是双端联动的进化飞轮：知识管理端把控供给质量，员工端消费验证；通过点踩与纠错反哺切片治理，形成数据闭环。</text>
+    <text x="1194" y="22" font-size="10.5" font-weight="600" fill="#64748B" text-anchor="end">STAR Architecture · 1280 x 700</text>
+  </g>
+</svg>
