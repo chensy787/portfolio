@@ -3233,21 +3233,21 @@
               <tr>
                 <td><strong>1. 设备资产复合查询</strong></td>
                 <td>通用 Agent 编排 (ReAct 循环)</td>
-                <td><span class="badge-downgrade"><i data-lucide="arrow-down-right" style="width: 12px; height: 12px;"></i> 该降级为 Workflow</span></td>
+                <td><span class="badge-downgrade"><i data-lucide="arrow-down-right" style="width: 12px; height: 12px;"></i> 改降级为 Workflow</span></td>
                 <td>步骤完全固定（抽参数→只读API→表格渲染）。单次 Tool Calling 即可闭环，Agent 循环徒增 2s 延迟且易虚构数字（B-010）。</td>
                 <td>小（0.5 人天）</td>
               </tr>
               <tr>
                 <td><strong>2. 告警信息检索与聚类</strong></td>
                 <td>通用 Agent 编排 (开放工具调用)</td>
-                <td><span class="badge-downgrade"><i data-lucide="arrow-down-right" style="width: 12px; height: 12px;"></i> 该降级为 Workflow</span></td>
+                <td><span class="badge-downgrade"><i data-lucide="arrow-down-right" style="width: 12px; height: 12px;"></i> 改降级为 Workflow</span></td>
                 <td>改用【路由 Routing + 链式】，先分类告警领域，再调用只读接口做结构化提炼；避免将“蓝屏查询”误判为“重启操作”（B-002）。</td>
                 <td>小（1 人天）</td>
               </tr>
               <tr>
                 <td><strong>3. 应用部署任务推送起草</strong></td>
                 <td>对话式 Agent (自由规划与动态追问)</td>
-                <td><span class="badge-change"><i data-lucide="refresh-cw" style="width: 12px; height: 12px;"></i> 该换模式</span></td>
+                <td><span class="badge-change"><i data-lucide="refresh-cw" style="width: 12px; height: 12px;"></i> 改换模式</span></td>
                 <td>步骤高度固定可枚举，改为【链式 Prompt Chaining + 确定性槽位状态机】，由工程代码控制追问，严禁大模型跳步下发。</td>
                 <td>中（2 人天）</td>
               </tr>
@@ -3261,35 +3261,35 @@
               <tr>
                 <td><strong>5. 报错截图 OCR 与排障辅助</strong></td>
                 <td>通用多模态 Agent (端到端直接调用)</td>
-                <td><span class="badge-change"><i data-lucide="refresh-cw" style="width: 12px; height: 12px;"></i> 该换模式</span></td>
+                <td><span class="badge-change"><i data-lucide="refresh-cw" style="width: 12px; height: 12px;"></i> 改换模式</span></td>
                 <td>现状易退化为“纯图像描述”（B-008）；改为【链式三段流水线】：专用轻量 OCR 抽取错误码 → 检索知识库 SOP → 关联设备详情。</td>
                 <td>中（2.5 人天）</td>
               </tr>
               <tr>
                 <td><strong>6. 标准 IT 流程 SOP 问答</strong></td>
                 <td>混用通用运维 Agent (带全量工具定义)</td>
-                <td><span class="badge-downgrade"><i data-lucide="arrow-down-right" style="width: 12px; height: 12px;"></i> 该降级为 Workflow</span></td>
+                <td><span class="badge-downgrade"><i data-lucide="arrow-down-right" style="width: 12px; height: 12px;"></i> 改降级为 Workflow</span></td>
                 <td>典型的单次 RAG 问答，单次调用即可闭环；剥离全部操作类 API Schema，避免 Attention 稀释与注入风险。</td>
                 <td>极小（0.5 人天）</td>
               </tr>
               <tr>
                 <td><strong>7. 任务状态追踪与失败归因</strong></td>
                 <td>依赖 Agent 多轮记忆检索历史操作上下文</td>
-                <td><span class="badge-change"><i data-lucide="refresh-cw" style="width: 12px; height: 12px;"></i> 该换模式</span></td>
+                <td><span class="badge-change"><i data-lucide="refresh-cw" style="width: 12px; height: 12px;"></i> 改换模式</span></td>
                 <td>上下文易丢失（B-004）；改为【编排者—工人 (Orchestrator-Workers)】：工程状态机维护任务 ID 栈，LLM 仅充当工人翻译日志报错堆栈。</td>
                 <td>小（1 人天）</td>
               </tr>
               <tr>
                 <td><strong>8. 多语种实时运维翻译</strong></td>
                 <td>挂载在主对话 Agent 下作为子意图</td>
-                <td><span class="badge-downgrade"><i data-lucide="arrow-down-right" style="width: 12px; height: 12px;"></i> 该降级为 Workflow</span></td>
+                <td><span class="badge-downgrade"><i data-lucide="arrow-down-right" style="width: 12px; height: 12px;"></i> 改降级为 Workflow</span></td>
                 <td>触碰红线（单次调用能解决坚决不编排），属于杀鸡用牛刀；独立出单次轻量小模型过滤器，延迟 < 500ms。</td>
                 <td>极小（0.5 人天）</td>
               </tr>
               <tr>
                 <td><strong>9. 复杂技术故障多轮深度排查</strong></td>
                 <td>暂缓/不敢做 (原 P3 搁置，担心幻觉与失控)</td>
-                <td><span class="badge-upgrade"><i data-lucide="arrow-up-right" style="width: 12px; height: 12px;"></i> 该升级为受控 Agent</span></td>
+                <td><span class="badge-upgrade"><i data-lucide="arrow-up-right" style="width: 12px; height: 12px;"></i> 改升级为受控 Agent</span></td>
                 <td>步骤真正无法预知（需动态查看日志→探测端口→分析驱动版本），正是 Agent 的核心价值区；需构建带【Max Steps=5、Token 预算上限、只读沙箱】的 ReAct Agent。</td>
                 <td>大（5~7 人天）</td>
               </tr>
